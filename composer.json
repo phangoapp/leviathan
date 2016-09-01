@@ -9,7 +9,8 @@
         }
     ],
     "require": {
-            
+            "guzzlehttp/guzzle": "~6.0",
+            "phpseclib/phpseclib": "@stable",
     },
     "autoload": {
         "psr-4": {
