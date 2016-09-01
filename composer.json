@@ -1,0 +1,19 @@
+{
+    "name": "phangoapp/leviathan",
+    "description": "Powerful gui for make tasks in systems via ssh",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Antonio de la Rosa",
+            "email": "webmaster@web-t-sys.com"
+        }
+    ],
+    "require": {
+            
+    },
+    "autoload": {
+        "psr-4": {
+            "PhangoApp\\Leviathan\\": "src"
+        }
+    }
+}
