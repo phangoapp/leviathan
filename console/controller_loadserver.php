@@ -1,6 +1,6 @@
 <?php
 
-use Phastafari\ServerTask\ConfigTask;
+use PhangoApp\Leviathan\ConfigTask;
 
 gc_enable();
 gc_collect_cycles();
@@ -23,7 +23,7 @@ function LoadServerConsole()
     foreach(ConfigTask::$servers as $port)
     {
         
-        $command=ConfigTask::$php_path.' console.php -m=phastafari/servertask -c=servertask --port='.$port;
+        $command=ConfigTask::$php_path.' console.php -m=phangoapp/leviathan -c=runtask --port='.$port;
         
         $arr_process[$port]=proc_open($command, $descriptorspec, $arr_pipes[$port]);
         

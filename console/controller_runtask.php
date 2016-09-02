@@ -14,12 +14,12 @@ use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 gc_enable();
 gc_collect_cycles();
 
-Webmodel::load_model('vendor/phastafari/servertask/models/servertask');
+Webmodel::load_model('vendor/phangoapp/leviathan/models/tasks');
 
 $process=[];
 $pipes=[];
 
-function RunTaskConsole($port=1337)
+function RunTaskConsole($host='127.0.0.1', $port=1337, $debug=0)
 {
 
     global $process, $pipes;
