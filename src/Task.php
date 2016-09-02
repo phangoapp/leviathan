@@ -1,9 +1,10 @@
 <?php
 
-namespace Phastafari\ServerTask;
+namespace PhangoApp\Leviathan;
 use PhangoApp\PhaModels\Webmodel;
 
-Webmodel::load_model('vendor/phastafari/servertask/models/servertask');
+Webmodel::load_model('vendor/phangoapp/leviathan/models/tasks');
+Webmodel::load_model('vendor/phangoapp/leviathan/models/servers');
 
 //The task are subclasses of Task class
 
@@ -14,7 +15,7 @@ class Task {
     
     public $server;
 
-    public function __construct($server)
+    public function __construct($server='')
     {
          
         $this->server=$server;
@@ -49,6 +50,30 @@ class Task {
         $this->user=ConfigTask::$ssh_user;
         
         $this->password='';
+        
+        $this->task=new \Task();
+        
+        $this->logtask=new \LogTask();
+        
+        $this->grouptask=new \ServerGroupTask();
+        
+        $this->name_task='';
+        
+        $this->description_task='';
+        
+        $this->codename_task='';
+        
+        $this->os_server='';
+        
+        $this->index_ssh_key=0;
+        
+        $this->enable_pty=false;
+        
+        $this->pre_task='';
+        
+        $this->post_task='';
+        
+        $this->error_task='';
 
     }
     
@@ -61,25 +86,38 @@ class Task {
             $key = new \phpseclib\Crypt\RSA();
 
             try {
-
-                $key->setPassword(ConfigTask::$ssh_key_password);
-
-                if(!($file_key=file_get_contents(ConfigTask::$ssh_key_priv)))
+                
+                if(file_exists(ConfigTask::$ssh_key_priv[$this->index_ssh_key]))
                 {
                     
-                    $this->txt_error='Error: wrong ssh key';
-                    return false;
+                    $key->setPassword(ConfigTask::$ssh_key_password[$this->index_ssh_key]);
+
+                    if(!($file_key=file_get_contents(ConfigTask::$ssh_key_priv[$this->index_ssh_key])))
+                    {
+                        
+                        $this->txt_error='Error: wrong ssh key';
+                        return false;
+
+                    }
+
+
+                    if(!$key->loadKey($file_key))
+                    {
+
+                        $this->txt_error='Error: cannot load ssh key';
+                        return false;
+
+                    }
 
                 }
-
-
-                if(!$key->loadKey($file_key))
+                else
                 {
-
-                    $this->txt_error='Error: cannot load ssh key';
+                    
+                    $this->txt_error='Error: no exists ssh key file';
                     return false;
-
+                    
                 }
+            
 
             }
             catch(Exception $e) {
@@ -138,7 +176,7 @@ class Task {
             
             foreach($this->files as $arr_file)
             {
-                $file=$arr_file[0];
+                $file=str_replace('${os_server}', $this->os_server, $arr_file[0]);
                 $permissions=$arr_file[1];
                 
                 $upload=ConfigTask::$ssh_path.'/'.$file;
@@ -156,7 +194,7 @@ class Task {
                 $return_trans=$sftp->put($upload, $file, \phpseclib\Net\SFTP::SOURCE_LOCAL_FILE);
 
                 if(!$return_trans)
-                {
+                {       
                         $this->txt_error='Error: cannot upload files to the server: '.$file;
                         return false;
                 }
@@ -224,25 +262,25 @@ class Task {
         
         $m=Webmodel::$m;
         
-        $arr_task=['name_task' => 'live', 'server' => $this->server];
+        $arr_task=['name_task' => $this->name_task, 'description_task' => $this->description_task, 'codename_task' => $this->codename_task];
         
-        $m->task->fields_to_update=['name_task', 'server', 'status', 'error'];
+        $this->task->fields_to_update=['name_task', 'description_task', 'codename_task'];
         
         $this->id=$id;
         
         if($this->id==0)
         {
         
-            if(!$m->task->insert($arr_task))
+            if(!$this->task->insert($arr_task))
             {
                 
-                $this->txt_error='Error: cannot insert the task in the database';
+                $this->txt_error='Error: cannot insert the task in the database '.$this->task->std_error;
                 
                 return false;
                 
             }
                 
-            $this->id=$m->task->insert_id();
+            $this->id=$this->task->insert_id();
     
         }
         
@@ -253,11 +291,21 @@ class Task {
             if($ssh)
             {
                 
+                if($this->pre_task!=='')
+                {
+                    
+                    $this->pre_task($this);
+                    
+                }
+                
                 if($this->upload_files($ssh))
                 {
-                    //$ssh->enablePTY();
-                    //Five minutes of timeout 
-                    $ssh->setTimeout(300);
+                    if($this->enable_pty)
+                    {
+                        $ssh->enablePTY();
+                    }
+                    //Ten minutes of timeout 
+                    $ssh->setTimeout(600);
                     //Exec task
                     
                     $error=0;
@@ -265,29 +313,44 @@ class Task {
                     foreach($this->commands_to_execute as $key => $exec_command)
                     {
                         
+                        //$this->logtask->log(['task_id' => $this->id, 'error' => 0, 'progress' => 0, 'message' =>  'Begin script...', 'no_progress' => 0, 'server' => $this->server]);
+                        
+                        $sudo='';
+                        
+                        if($exec_command[0]=='sudo')
+                        {
+                            
+                            $sudo='sudo ';
+                            
+                        }
+                        
+                        unset($exec_command[0]);
+                        
                         $this->command=$exec_command;
                         
-                        $command=ConfigTask::$ssh_path.'/'.trim(implode(' ', $exec_command));
+                        $command=$sudo.ConfigTask::$ssh_path.'/'.trim(implode(' ', $exec_command));
                     
                         $ssh->exec($command, $this);
                         
                         if($ssh->isTimeout())
                         {
                             
-                            \LogTask::log(['task_id' => $this->id, 'error' => 1, 'progress' => 100, 'msg' => 'Error: the task show timeout...', 'no_progress' => 0, 'server' => $this->server]);
+                            $this->logtask->log(['task_id' => $this->id, 'error' => 1, 'progress' => 100, 'message' =>  'Error: the task show timeout...', 'no_progress' => 0, 'server' => $this->server]);
                             
                             $error=1;
-                            break;
+                            #break;
+                            return false;
                             
                         }
                         
                         if($ssh->getExitStatus()!=0)
                         {
                             
-                            \LogTask::log(['task_id' => $this->id, 'error' => 1, 'progress' => 100, 'msg' => 'Error: the task show error...', 'no_progress' => 0, 'server' => $this->server]);
+                            $this->logtask->log(['task_id' => $this->id, 'error' => 1, 'progress' => 100, 'message' =>  'Error: the task show error. Please, check the database log', 'no_progress' => 0, 'server' => $this->server]);
                             
-                            $error=1;
-                            break;
+                            /*$error=1;
+                            break;*/
+                            return false;
                             
                         }
                         
@@ -299,13 +362,13 @@ class Task {
                     {
                         $ssh->disconnect();
                         
-                        $m->task->reset_require();
+                        $this->task->reset_require();
                     
-                        $m->task->set_conditions(['where IdTask=?', [$this->id]]);
+                        $this->task->set_conditions(['where IdTask=?', [$this->id]]);
                         
-                        $m->task->update(['error' => 1, 'status' => 1]);
+                        $this->task->update(['error' => 1, 'status' => 1]);
                         
-                        \LogTask::log(['task_id' => $this->id, 'error' => 1, 'progress' => 100, 'msg' => $this->txt_error,'server' => $this->server]);
+                        $this->logtask->log(['task_id' => $this->id, 'error' => 1, 'progress' => 100, 'message' =>  $this->txt_error,'server' => $this->server]);
                         
                         return false;
                         
@@ -315,20 +378,31 @@ class Task {
                     
                     $ssh->disconnect();
                     
+                    if($this->post_task!=='')
+                    {
+                        
+                        $this->post_task($this);
+                        
+                    }
+                    
                     //Check task how done
                     
-                    $m->task->reset_require();
+                    $this->task->reset_require();
                     
-                    $m->task->set_conditions(['where IdTask=?', [$this->id]]);
+                    $this->task->set_conditions(['where IdTask=?', [$this->id]]);
                     
-                    $m->task->update(['status' => 1]);
+                    $this->task->update(['status' => 1]);
                     
                     if($error==0)
                     {
                         
-                        //$m->task->update(['status' => 1]);
+                        $this->grouptask->create_forms();
                         
-                        \LogTask::log(['task_id' => $this->id, 'error' => 0, 'status'=> 1, 'progress' => 100, 'msg' => 'Task done!!','server' => $this->server]);
+                        $this->grouptask->insert(['ip' => $this->server, 'name_task' => $this->codename_task]);
+                        
+                        //$this->task->update(['status' => 1]);
+                        
+                        $this->logtask->log(['task_id' => $this->id, 'error' => 0, 'status'=> 1, 'progress' => 100, 'message' =>  'Task done!!','server' => $this->server]);
                     
                         return true;
 
@@ -336,9 +410,9 @@ class Task {
                     else
                     {
                         
-                        //$m->task->update(['status' => 1, 'error' => 1]);
+                        //$this->task->update(['status' => 1, 'error' => 1]);
                         
-                        \LogTask::log(['task_id' => $this->id, 'error' => 1, 'progress' => 100, 'msg' => 'Task show error: '.$this->txt_error, 'server' => $this->server]);
+                        $this->logtask->log(['task_id' => $this->id, 'error' => 1, 'progress' => 100, 'message' =>  'Task show error: '.$this->txt_error, 'server' => $this->server]);
                         
                         return false;
                         
@@ -351,13 +425,20 @@ class Task {
                     
                     $ssh->disconnect();
                     
-                    $m->task->reset_require();
+                    if($this->error_task!=='')
+                    {
+                        
+                        $this->error_task($this);
+                        
+                    }
                     
-                    $m->task->set_conditions(['where IdTask=?', [$this->id]]);
+                    $this->task->reset_require();
                     
-                    \LogTask::log(['task_id' => $this->id, 'error' => 1, 'progress' => 100, 'msg' => $this->txt_error, 'server' => $this->server]);
+                    $this->task->set_conditions(['where IdTask=?', [$this->id]]);
                     
-                    $m->task->update(['error' => 1, 'status' => 1]);
+                    $this->logtask->log(['task_id' => $this->id, 'error' => 1, 'progress' => 100, 'message' =>  $this->txt_error, 'server' => $this->server]);
+                    
+                    $this->task->update(['error' => 1, 'status' => 1]);
                     
                     return false;
                     
@@ -367,13 +448,13 @@ class Task {
             else
             {
                 
-                $m->task->reset_require();
+                $this->task->reset_require();
                     
-                $m->task->set_conditions(['where IdTask=?', [$this->id]]);
+                $this->task->set_conditions(['where IdTask=?', [$this->id]]);
                 
-                $m->task->update(['error' => 1, 'status' => 1]);
+                $this->task->update(['error' => 1, 'status' => 1]);
                 
-                \LogTask::log(['task_id' => $this->id, 'error' => 1, 'progress' => 100, 'msg' => $this->txt_error, 'server' => $this->server]);
+                $this->logtask->log(['task_id' => $this->id, 'error' => 1, 'progress' => 100, 'message' =>  $this->txt_error, 'server' => $this->server]);
                 
                 return false;
                 
@@ -411,7 +492,7 @@ class Task {
             
             $arr_msg['server']=$this->server;
             
-            \LogTask::log($arr_msg);
+            $this->logtask->log($arr_msg);
         
         }
         else
@@ -420,7 +501,7 @@ class Task {
             if(trim($msg)!='')
             {
                 
-                \LogTask::log(['task_id' => $this->id, 'error' => 0, 'progress' => 0, 'msg' => $msg, 'no_progress' => 1, 'server' => $this->server]);
+                $this->logtask->log(['task_id' => $this->id, 'error' => 0, 'progress' => 0, 'message' =>  $msg, 'no_progress' => 1, 'server' => $this->server]);
             }
             /*$this->txt_error='Error executing the script. See the database log for more details.';
             

@@ -14,9 +14,19 @@ class Task extends Webmodel {
         $this->register('name_task', new CoreFields\CharField(), true);
         $this->register('description_task', new CoreFields\CharField(), true);
         $this->register('codename_task', new CoreFields\CharField(), true);
-        $this->register('path_task', new CoreFields\CharField(), true);
+        //$this->register('server', new CoreFields\IpField());
+        $this->register('path_task', new CoreFields\CharField());
         $this->register('url_return', new CoreFields\UrlField());
         $this->register('data', new CoreFields\ArrayField(new CoreFields\CharField('data')));
+        $this->register('files', new CoreFields\ArrayField(new CoreFields\ArrayField(new CoreFields\CharField())));
+        $this->register('commands_to_execute', new CoreFields\ArrayField(new CoreFields\ArrayField(new CoreFields\CharField())));
+        $this->register('delete_files', new CoreFields\ArrayField(new CoreFields\CharField()));
+        $this->register('delete_directories', new CoreFields\ArrayField(new CoreFields\CharField()));
+        $this->register('one_time', new CoreFields\BooleanField());
+        $this->register('version', new CoreFields\CharField());
+        $this->register('post_func', new CoreFields\CharField());
+        $this->register('pre_func', new CoreFields\CharField());
+        $this->register('error_func', new CoreFields\CharField());
     }
     
 }
@@ -35,6 +45,15 @@ class LogTask extends Webmodel {
         $this->register('error', new CoreFields\BooleanField());
         $this->register('status', new CoreFields\BooleanField());
         $this->register('data', new CoreFields\ArrayField(new CoreFields\CharField('data')));
+        
+    }
+    
+    public function log(array $post)
+    {
+        
+        $this->fields_to_update=['task_id', 'error', 'progress', 'message', 'no_progress', 'status', 'server'];
+        
+        return Webmodel::$m->logtask->insert($post);
         
     }
     

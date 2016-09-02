@@ -140,7 +140,7 @@ class ServerGroupTask extends Webmodel {
     {
         
         $this->register('name_task', new CoreFields\CharField(), true);
-        $this->register('ip', new LonelyIpField(), true);
+        $this->register('ip', new CoreFields\IpField(), true);
         
     }
     
