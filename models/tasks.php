@@ -14,8 +14,12 @@ class Task extends Webmodel {
         $this->register('name_task', new CoreFields\CharField(), true);
         $this->register('description_task', new CoreFields\CharField(), true);
         $this->register('codename_task', new CoreFields\CharField(), true);
-        //$this->register('server', new CoreFields\IpField());
-        $this->register('path_task', new CoreFields\CharField());
+        $this->register('path', new CoreFields\CharField());
+        $this->register('data', new CoreFields\ArrayField(new CoreFields\CharField('data')));
+        $this->register('server', new CoreFields\IpField());
+        $this->register('where_sql_server', new CoreFields\CharField());
+        
+        /*
         $this->register('url_return', new CoreFields\UrlField());
         $this->register('data', new CoreFields\ArrayField(new CoreFields\CharField('data')));
         $this->register('files', new CoreFields\ArrayField(new CoreFields\ArrayField(new CoreFields\CharField())));
@@ -26,7 +30,7 @@ class Task extends Webmodel {
         $this->register('version', new CoreFields\CharField());
         $this->register('post_func', new CoreFields\CharField());
         $this->register('pre_func', new CoreFields\CharField());
-        $this->register('error_func', new CoreFields\CharField());
+        $this->register('error_func', new CoreFields\CharField());*/
     }
     
 }

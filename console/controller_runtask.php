@@ -47,11 +47,7 @@ function RunTaskConsole($host='127.0.0.1', $port=1337, $debug=0)
         
         if(ConfigTask::$api_key===$get['api_key'])
         {
-            
-            /*$process[$z]=new Process('php console.php -m=phastafari/servertask -c=task --task_id=1');
-            
-            $process[$z]->start();*/
-            
+         
             $descriptorspec = array(
                0 => array("pipe", "r"),  // stdin es una tubería usada por el hijo para lectura
                1 => array("pipe", "w"),  // stdout es una tubería usada por el hijo para escritura
@@ -60,19 +56,12 @@ function RunTaskConsole($host='127.0.0.1', $port=1337, $debug=0)
             
             $pipes[$z]=[];
 
-            // In install server add ssh-keyscan
-
-            //ssh-keyscan -H [ip_address] >> ~/.ssh/known_hosts
-            //ssh-keyscan -H [hostname] >> ~/.ssh/known_hosts
-
-            //ssh -o StrictHostKeyChecking=no username@hostname.com
-
             $process[$z] = proc_open('php console.php -m=phangoapp/leviathan -c=task --task_id='.$get['task_id'], $descriptorspec, $pipes[$z], Routes::$base_path);
             
             if(is_resource($process[$z]))
             {
             
-                $arr_answer=['progress' => 0, 'error' => 0, 'msg' => 'Begin tasks'];
+                $arr_answer=['progress' => 0, 'error' => 0, 'message' => 'Begin tasks'];
                 
                 $response->writeHead(200, array('Content-Type' => 'text/plain'));
                 $response->end(json_encode($arr_answer));
@@ -81,7 +70,7 @@ function RunTaskConsole($host='127.0.0.1', $port=1337, $debug=0)
             else
             {
                 
-                $arr_answer=['progress' => 100, 'error' => 1, 'msg' => 'Error: task executable doesnt work'];
+                $arr_answer=['progress' => 100, 'error' => 1, 'message' => 'Error: task executable doesnt work'];
             
                 $response->writeHead(200, array('Content-Type' => 'text/plain'));
                 $response->end(json_encode($arr_answer));
@@ -92,7 +81,7 @@ function RunTaskConsole($host='127.0.0.1', $port=1337, $debug=0)
         else
         {
             
-            $arr_answer=['progress' => 100, 'error' => 1, 'msg' => 'Error: wrong request'];
+            $arr_answer=['progress' => 100, 'error' => 1, 'message' => 'Error: wrong request'];
             
             $response->writeHead(200, array('Content-Type' => 'text/plain'));
             $response->end(json_encode($arr_answer));

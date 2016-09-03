@@ -74,6 +74,14 @@ class Task {
         $this->post_task='';
         
         $this->error_task='';
+        
+        $this->data=[];
+        
+        $this->one_time=0;
+        
+        $this->version=__DIR__.'/version';
+        
+        $this->tmp_dir='/tmp';
 
     }
     
@@ -144,7 +152,7 @@ class Task {
             if (!$sftp->login($this->user, $key)) 
             {
 
-                $this->txt_error='Error: cannot login in the server';
+                $this->txt_error='Error: cannot login in the server. Check that server is up';
             
                 return false;
 
@@ -290,6 +298,34 @@ class Task {
             
             if($ssh)
             {
+                //Check if one time file and if 
+                
+                if($this->one_time)
+                {
+                    
+                    $task_check=ConfigTask::$ssh_path.'/tasks/'.$this->codename_task;
+                    
+                    $copy_task=$this->version;
+                    
+                    $version_task=trim(file_get_contents($this->version));
+                    
+                    if($ssh->stat($task_check) && $version_task)
+                    {
+                        
+                        $version_installed=trim($ssh->get($task_check));
+                        
+                        if(version_compare($version_installed, $version_task)==0)
+                        {
+                            
+                            $this->logtask->log(['task_id' => $this->id, 'error' => 0, 'progress' => 100, 'message' =>  'Task was executed sucessfully', 'no_progress' => 0, 'server' => $this->server]);
+                            
+                            return true;
+                            
+                        }
+                        
+                    }
+                    
+                }
                 
                 if($this->pre_task!=='')
                 {
@@ -362,11 +398,11 @@ class Task {
                     {
                         $ssh->disconnect();
                         
-                        $this->task->reset_require();
+                        /*$this->task->reset_require();
                     
                         $this->task->set_conditions(['where IdTask=?', [$this->id]]);
                         
-                        $this->task->update(['error' => 1, 'status' => 1]);
+                        $this->task->update(['error' => 1, 'status' => 1]);*/
                         
                         $this->logtask->log(['task_id' => $this->id, 'error' => 1, 'progress' => 100, 'message' =>  $this->txt_error,'server' => $this->server]);
                         
@@ -374,27 +410,60 @@ class Task {
                         
                     }
                     
+                    
                     //Disconnect from server
-                    
-                    $ssh->disconnect();
-                    
-                    if($this->post_task!=='')
-                    {
-                        
-                        $this->post_task($this);
-                        
-                    }
                     
                     //Check task how done
                     
-                    $this->task->reset_require();
+                    /*$this->task->reset_require();
                     
                     $this->task->set_conditions(['where IdTask=?', [$this->id]]);
                     
-                    $this->task->update(['status' => 1]);
+                    $this->task->update(['status' => 1]);*/
                     
                     if($error==0)
                     {
+                        //Upload version if set
+                        
+                        if($this->one_time)
+                        {
+                            $task_check_dir=ConfigTask::$ssh_path.'/tasks/';
+                            
+                            if(!$ssh->is_dir($task_check_dir))
+                            {
+                                
+                                $ssh->mkdir($task_check_dir, -1, true);
+                                
+                            }
+                            
+                            $task_check=ConfigTask::$ssh_path.'/tasks/'.$this->codename_task;
+                            
+                            $copy_task=$this->version;
+                            
+                            if(file_exists($copy_task))
+                            {
+                                
+                                $return_trans=$ssh->put($task_check, $copy_task, \phpseclib\Net\SFTP::SOURCE_LOCAL_FILE);
+
+                                if(!$return_trans)
+                                {       
+                                        $this->logtask->log(['task_id' => $this->id, 'error' => 0, 'status'=> 0, 'progress' => 100, 'message' =>  'Sorry, cannot upload: '.$copy_task,'server' => $this->server]);
+                                }
+                                
+                            }
+                            
+                        }
+                        
+                        
+                        
+                        $ssh->disconnect();
+                    
+                        if($this->post_task!=='')
+                        {
+                            
+                            $this->post_task($this);
+                            
+                        }
                         
                         $this->grouptask->create_forms();
                         
@@ -409,6 +478,8 @@ class Task {
                     }
                     else
                     {
+                        
+                        $ssh->disconnect();
                         
                         //$this->task->update(['status' => 1, 'error' => 1]);
                         
@@ -432,13 +503,13 @@ class Task {
                         
                     }
                     
-                    $this->task->reset_require();
+                    /*$this->task->reset_require();
                     
-                    $this->task->set_conditions(['where IdTask=?', [$this->id]]);
+                    $this->task->set_conditions(['where IdTask=?', [$this->id]]);*/
                     
                     $this->logtask->log(['task_id' => $this->id, 'error' => 1, 'progress' => 100, 'message' =>  $this->txt_error, 'server' => $this->server]);
                     
-                    $this->task->update(['error' => 1, 'status' => 1]);
+                    //$this->task->update(['error' => 1, 'status' => 1]);
                     
                     return false;
                     
@@ -447,12 +518,12 @@ class Task {
             }
             else
             {
-                
+                /*
                 $this->task->reset_require();
                     
                 $this->task->set_conditions(['where IdTask=?', [$this->id]]);
                 
-                $this->task->update(['error' => 1, 'status' => 1]);
+                $this->task->update(['error' => 1, 'status' => 1]);*/
                 
                 $this->logtask->log(['task_id' => $this->id, 'error' => 1, 'progress' => 100, 'message' =>  $this->txt_error, 'server' => $this->server]);
                 
@@ -469,14 +540,14 @@ class Task {
             
         }
         
-        
-        //If have files to upload, upload then.
-        
-        //Get key
+        //If
 
         //Execute the task
         
+        $this->grouptask->create_forms();
+        $this->grouptask->insert(['name_task' => $this->codename_task, 'ip' => $this->server]);
         
+        return true;
         
     }
     

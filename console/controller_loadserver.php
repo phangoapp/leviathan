@@ -77,13 +77,13 @@ function LoadServerConsole()
             
         }
     
-        $last_time1=filemtime('./vendor/phastafari/servertask/console/controller_servertask.php');
+        $last_time1=filemtime('./vendor/phangoapp/leviathan/console/controller_runtask.php');
             
-        clearstatcache (true, './vendor/phastafari/servertask/console/controller_servertask.php');
+        clearstatcache (true, './vendor/phangoapp/leviathan/console/controller_runtask.php');
         
         sleep(1);
         
-        $last_time2=filemtime('./vendor/phastafari/servertask/console/controller_servertask.php');
+        $last_time2=filemtime('./vendor/phangoapp/leviathan/console/controller_runtask.php');
         
         if($last_time1<$last_time2)
         {
