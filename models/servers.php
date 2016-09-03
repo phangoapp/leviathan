@@ -11,7 +11,7 @@ class LonelyIpField extends CoreFields\IpField {
         
         parent::__construct($size);
         
-        $duplicated_ip=false;
+        $this->duplicated_ip=false;
         
     }
     
