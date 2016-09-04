@@ -18,6 +18,9 @@ class Task extends Webmodel {
         $this->register('data', new CoreFields\ArrayField(new CoreFields\CharField('data')));
         $this->register('server', new CoreFields\IpField());
         $this->register('where_sql_server', new CoreFields\CharField());
+        $this->register('user', new CoreFields\CharField());
+        $this->register('password', new CoreFields\CharField());
+        $this->register('os_codename', new CoreFields\CharField());
         
         /*
         $this->register('url_return', new CoreFields\UrlField());
@@ -41,7 +44,7 @@ class LogTask extends Webmodel {
     {
         
         $this->register('date', new CoreFields\DateField());
-        $this->register('task_id', new CoreFields\ForeignKeyField(new Task(), $size=11, $default_id=0, $name_field='name'), true);
+        $this->register('task_id', new CoreFields\ForeignKeyField(new Task(), $size=11, $default_id=0, $name_field='name_task'), true);
         $this->register('server', new CoreFields\IpField());
         $this->register('progress', new CoreFields\DoubleField());
         $this->register('no_progress', new CoreFields\BooleanField());

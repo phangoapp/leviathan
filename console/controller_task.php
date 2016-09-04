@@ -11,6 +11,8 @@ Webmodel::load_model('vendor/phangoapp/leviathan/models/tasks');
 function TaskConsole($task_id)
 {
     
+    settype($task_id, 'integer');
+    
     $taskmodel=new \Task();
     
     $logtask=new \LogTask();
@@ -24,6 +26,22 @@ function TaskConsole($task_id)
         echo json_encode(['error' => 1, 'status' => 1, 'message' => 'Error: no exists task']);
         exit(1);
         
+    }
+    
+    if($arr_task['password']!='')
+    {
+        
+        //Delete password from task
+        
+        $taskmodel->fields_to_update=['password'];
+        
+        $taskmodel->reset_require();
+        
+        $taskmodel->set_conditions(['where IdTask=?', [$task_id]]);
+        
+        $taskmodel->update(['password' => '']);
+        
+        $taskmodel->reload_require();
     }
     
     
@@ -96,6 +114,28 @@ function TaskConsole($task_id)
     {
         
         $task->server=$arr_task['server'];
+        
+        if($arr_task['user']!='')
+        {
+            
+            $task->user=$arr_task['user'];
+            
+        }
+        
+        if($arr_task['password']!='')
+        {
+        
+            $task->password=$arr_task['password'];
+            
+        }
+        
+        if($arr_task['os_codename']!='')
+        {
+            
+            $task->os_server=$arr_task['os_codename'];
+            
+        }
+        
         $yes_server=1;
         
         $task->exec();

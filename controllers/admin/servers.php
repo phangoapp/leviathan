@@ -5,8 +5,10 @@ use PhangoApp\PhaModels\Webmodel;
 use PhangoApp\PhaView\View;
 use PhangoApp\PhaI18n\I18n;
 use PhangoApp\PhaModels\ModelForm;
+use PhangoApp\Leviathan\ConfigTask;
 
 Webmodel::load_model('vendor/phangoapp/leviathan/models/servers');
+Webmodel::load_model('vendor/phangoapp/leviathan/models/tasks');
 
 function ServersAdmin()
 {
@@ -15,6 +17,8 @@ function ServersAdmin()
     
     $s=new Server();
     $g=new ServerGroup();
+    $t=new Task();
+    $os=new OsServer();
     
     if(PhangoApp\PhaRouter\Routes::$request_method=='GET')
     {
@@ -61,7 +65,7 @@ function ServersAdmin()
                 
                 echo View::load_view(['form' => $form], 'leviathan/add_server', 'phangoapp/leviathan');*/
                 
-                form_add($s, $g);
+                form_add($s, $g, $os);
             
             break;
             
@@ -71,19 +75,46 @@ function ServersAdmin()
     if(PhangoApp\PhaRouter\Routes::$request_method=='POST')
     {
         
-        form_add($s, $g, $_POST);
+        $post=form_add($s, $g, $os, $_POST);
         
         //Insert task, go to guzzle
         //PhangoApp\PhaLibs\AdminUtils::$show_admin_view=false;
         
+        $t->create_forms();
+        
+        if($post)
+        {
+            //, 'data' => $post
+            if($t->insert(['name_task' => 'Add server', 'description_task' => 'Task for add a server to leviathan network', 'codename_task' => 'add_server', 'path' => 'tasks/system/add_server', 'server' => $post['ip'], 'user' => 'root', 'password' => $_POST['password']]))
+            {
+                
+                //Guzzle
+                
+                //$client=new GuzzleHttp\Client(['base_uri' => $url_server]);
+                
+                
+                
+            }
+            else
+            {
+                
+                echo "Cannot insert the task. Check your database";
+                
+            }
+            
+        }
+        
     }
 }
 
-function form_add($s, $g, $post=[])
+function form_add($s, $g, $os, $post=[])
 {
     
     $s->create_forms(['hostname', 'ip', 'os_codename', 'password']);
-            
+    
+    $s->forms['os_codename']=new PhangoApp\PhaModels\Forms\SelectModelForm('os_codename',   '',   $os,   'name',   'codename') ;
+    $s->forms['os_codename']->required=true;
+    
     $s->forms['password']=new PhangoApp\PhaModels\Forms\PasswordForm('password', '');
     $s->forms['password']->required=true;
 
@@ -103,12 +134,22 @@ function form_add($s, $g, $post=[])
     if(count($post)>0)
     {
         
-        if(!ModelForm::check_form($s->forms, $post))
+        list($s->forms, $check_post)=ModelForm::check_form($s->forms, $post);
+        
+        if(!$check_post)
         {
             
             $form=PhangoApp\PhaModels\ModelForm::show_form($s->forms, $post, true);
         
             echo View::load_view(['form' => $form], 'leviathan/add_server', 'phangoapp/leviathan');
+            
+            return false;
+            
+        }
+        else
+        {
+            
+            return $check_post;
             
         }
         
