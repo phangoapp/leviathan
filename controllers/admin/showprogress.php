@@ -72,9 +72,9 @@ function ShowProgressAdmin()
                     else
                     {
                         
-                        $arr_rows=$tasklog->select_to_array();
+                        $arr_rows=$tasklog->select_to_list();
                         
-                        echo '[]';
+                        echo json_encode($arr_rows);
                         
                     }
                     

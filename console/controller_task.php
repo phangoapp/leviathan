@@ -7,6 +7,7 @@ gc_enable();
 gc_collect_cycles();
 
 Webmodel::load_model('vendor/phangoapp/leviathan/models/tasks');
+Webmodel::load_model('vendor/phangoapp/leviathan/models/servers');
 
 function TaskConsole($task_id)
 {
@@ -16,6 +17,8 @@ function TaskConsole($task_id)
     $taskmodel=new \Task();
     
     $logtask=new \LogTask();
+    
+    $server=new \Server();
     
     $arr_task=$taskmodel->select_a_row($task_id);
     
@@ -147,9 +150,9 @@ function TaskConsole($task_id)
     if($arr_task['where_sql_server']!='')
     {
         
-        //$yes_server=1;
+        $arr_servers=$server->select_to_list();
         
-        //Execute tasks
+        //Execute tasks using fork
         
         
         

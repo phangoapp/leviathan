@@ -87,10 +87,15 @@ function ServersAdmin()
             //, 'data' => $post
             if($t->insert(['name_task' => 'Add server', 'description_task' => 'Task for add a server to leviathan network', 'codename_task' => 'add_server', 'path' => 'tasks/system/add_server', 'server' => $post['ip'], 'user' => 'root', 'password' => $_POST['password']]))
             {
+                $id=$t->insert_id();
                 
                 //Guzzle
                 
-                //$client=new GuzzleHttp\Client(['base_uri' => $url_server]);
+                $client=new GuzzleHttp\Client();
+                
+                $client->request('GET', ConfigTask::$url_server, [
+                    'query' => ['task_id' => $id]
+                ]);
                 
                 
                 
@@ -135,6 +140,20 @@ function form_add($s, $g, $os, $post=[])
     {
         
         list($s->forms, $check_post)=ModelForm::check_form($s->forms, $post);
+        
+        if(isset($check_post['ip']))
+        {
+            
+            if($s->select_count()>0)
+            {
+                
+                $check_post=false;
+                $s->forms['ip']->error=1;
+                $s->forms['ip']->std_error='Error: exists a server with this ip';
+                
+            }
+            
+        }
         
         if(!$check_post)
         {
