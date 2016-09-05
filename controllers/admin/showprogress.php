@@ -20,7 +20,7 @@ function ShowProgressAdmin()
     $s=new Server();
     $g=new ServerGroup();
     $t=new Task();
-    $tasklog=new LogTask();
+    $logtask=new LogTask();
     $os=new OsServer();
     
     # Need check the server
@@ -31,16 +31,16 @@ function ShowProgressAdmin()
     {
         
         $s->set_conditions(['where ip=?', [$_GET['server']] ]);
-                
+        
         $arr_server=$s->select_a_row_where();
-                
+        
         if($arr_server)
         {
                     
             switch($_GET['op'])
             {
                 default:
-            
+                    
                     echo View::load_view([$arr_task['name_task'], $arr_server['hostname'], $arr_task['description_task'], $_GET['task_id'], $arr_server['ip']] , 'leviathan/progress', 'phangoapp/leviathan');
                 
                 break;
@@ -51,15 +51,15 @@ function ShowProgressAdmin()
                         
                     header('Content-type: text/plain');
                     
-                    $tasklog->set_limit([$_GET['position'], 20]);
+                    $logtask->reset_conditions=0;
+                    
+                    $logtask->set_limit([$_GET['position'], 20]);
                 
-                    $tasklog->set_order(['IdLogtask' => 0]);
+                    $logtask->set_order(['IdLogtask' => 0]);
                     
-                    $tasklog->set_conditions=(['WHERE task_id=?', [$_GET['task_id']]]);
+                    $logtask->set_conditions(['WHERE task_id=? and server=?', [$_GET['task_id'], $arr_server['ip']]]);
                     
-                    $tasklog->reset_conditions=false;
-                    
-                    $c=$tasklog->select_count();
+                    $c=$logtask->select_count('IdLogtask', [], false);
                     
                     if($c==0)
                     {
@@ -72,7 +72,7 @@ function ShowProgressAdmin()
                     else
                     {
                         
-                        $arr_rows=$tasklog->select_to_list();
+                        $arr_rows=$logtask->select_to_list([], true);
                         
                         echo json_encode($arr_rows);
                         
@@ -81,38 +81,38 @@ function ShowProgressAdmin()
                     /*
                     if($_GET['server']!='')
                     {
-                        $tasklog->set_conditions(['WHERE task_id=? and logtask.server=?', [$_GET['task_id'], $_GET['server']]]);
+                        $logtask->set_conditions(['WHERE task_id=? and logtask.server=?', [$_GET['task_id'], $_GET['server']]]);
                     }
                         
-                    #$tasklog->set_limit([position, 1])
+                    #$logtask->set_limit([position, 1])
                     
-                    #arr_row=$tasklog->select_a_row_where([], 1, position)
+                    #arr_row=$logtask->select_a_row_where([], 1, position)
                     
-                    $tasklog->reset_conditions=false;
+                    $logtask->reset_conditions=false;
                     
-                    $c=$tasklog->select_count();
+                    $c=$logtask->select_count();
                     
                     if($c>0)
                     {
                         
                         $arr_rows=[];
                         
-                        $cursor=$tasklog->select([], true);
+                        $cursor=$logtask->select([], true);
                         
-                        while($arr_row=$tasklog->fetch_row($cursor))
+                        while($arr_row=$logtask->fetch_row($cursor))
                         {
                             $arr_rows[]=$arr_row;
                         }
                         
                         if(count($arr_rows)==0)
                         {
-                            $tasklog->set_limit([1]);
+                            $logtask->set_limit([1]);
                         
-                            $tasklog->set_order(['IdLogtask' => 0]);
+                            $logtask->set_order(['IdLogtask' => 0]);
                             
-                            $tasklog->set_conditions(['WHERE task_id=? and status=? and error=?  and server=?', [$_GET['task_id'], 1, 1, '']]);
+                            $logtask->set_conditions(['WHERE task_id=? and status=? and error=?  and server=?', [$_GET['task_id'], 1, 1, '']]);
                             
-                            if($tasklog->select_count()==0)
+                            if($logtask->select_count()==0)
                             {
                                 
                                 if($arr_task['status']=='0' || $arr_task['status']==0)
@@ -127,13 +127,13 @@ function ShowProgressAdmin()
                             else 
                             {
                                 
-                                $tasklog->set_limit([1]);
+                                $logtask->set_limit([1]);
                             
-                                $tasklog->set_order(['IdLogtask' => 0]);
+                                $logtask->set_order(['IdLogtask' => 0]);
                                 
-                                $tasklog->set_conditions(['WHERE task_id=%s and status=1 and error=1  and server=""', [task_id]]);
+                                $logtask->set_conditions(['WHERE task_id=%s and status=1 and error=1  and server=""', [task_id]]);
                                 
-                                $arr_rows=$tasklog->select_to_array([], true);
+                                $arr_rows=$logtask->select_to_array([], true);
                             }
                         }
                         #response.set_header('Content-type', 'text/plain')

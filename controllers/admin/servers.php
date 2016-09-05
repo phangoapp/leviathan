@@ -4,6 +4,7 @@ use PhangoApp\PhaLibs\SimpleList;
 use PhangoApp\PhaModels\Webmodel;
 use PhangoApp\PhaView\View;
 use PhangoApp\PhaI18n\I18n;
+use PhangoApp\PhaLibs\AdminUtils;
 use PhangoApp\PhaModels\ModelForm;
 use PhangoApp\Leviathan\ConfigTask;
 
@@ -85,18 +86,25 @@ function ServersAdmin()
         if($post)
         {
             //, 'data' => $post
-            if($t->insert(['name_task' => 'Add server', 'description_task' => 'Task for add a server to leviathan network', 'codename_task' => 'add_server', 'path' => 'tasks/system/add_server', 'server' => $post['ip'], 'user' => 'root', 'password' => $_POST['password']]))
+            if($t->insert(['name_task' => 'Add server', 'description_task' => 'Task for add a server to leviathan network', 'codename_task' => 'add_server', 'path' => 'tasks/system/add_server', 'server' => $post['ip'], 'user' => 'root', 'password' => $_POST['password'], 'user_path' => '/root', 'os_codename' => $post['os_codename'], 'data' => ['ip' => $post['ip']]]))
             {
                 $id=$t->insert_id();
                 
-                //Guzzle
+                if($s->insert($post))
+                {
                 
-                $client=new GuzzleHttp\Client();
+                    //Guzzle
+                    PhangoApp\PhaLibs\AdminUtils::$show_admin_view=false;
+                    
+                    $client=new GuzzleHttp\Client();
+                    
+                    $client->request('GET', ConfigTask::$url_server, [
+                        'query' => ['task_id' => $id, 'api_key' => ConfigTask::$api_key]
+                    ]);
+                    
+                    die(header('Location: '.AdminUtils::set_admin_link('leviathan/showprogress', ['task_id' => $id, 'server' => $post['ip']])));
                 
-                $client->request('GET', ConfigTask::$url_server, [
-                    'query' => ['task_id' => $id]
-                ]);
-                
+                }
                 
                 
             }

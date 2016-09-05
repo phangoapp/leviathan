@@ -31,6 +31,8 @@ function TaskConsole($task_id)
         
     }
     
+    //Delete data and password
+    
     if($arr_task['password']!='')
     {
         
@@ -42,7 +44,7 @@ function TaskConsole($task_id)
         
         $taskmodel->set_conditions(['where IdTask=?', [$task_id]]);
         
-        $taskmodel->update(['password' => '']);
+        //$taskmodel->update(['password' => '']);
         
         $taskmodel->reload_require();
     }
@@ -51,7 +53,7 @@ function TaskConsole($task_id)
     if($arr_task['path']=='')
     {
         
-        $logtask->log(['task_id' => $task_id, 'error' => 1, 'progress' => 100, 'message' =>  'Cannot load any task from a php file', 'server' => '']);
+        $logtask->log(['task_id' => $task_id, 'error' => 1, 'status' => 1, 'progress' => 100, 'message' =>  'Cannot load any task from a php file', 'server' => $arr_task['server']]);
         exit(1);
         
     }
@@ -96,7 +98,7 @@ function TaskConsole($task_id)
         else
         {
             
-            $logtask->log(['task_id' => $task_id, 'error' => 1, 'progress' => 100, 'message' =>  'Cannot load any task from a php file: '.$old_task_path.' and '.$task_path, 'server' => '']);
+            $logtask->log(['task_id' => $task_id, 'error' => 1, 'status' => 1, 'progress' => 100, 'message' =>  'Cannot load any task from a php file: '.$old_task_path.' and '.$task_path, 'server' => $arr_task['server']]);
             exit(1);
             
         }
@@ -104,14 +106,6 @@ function TaskConsole($task_id)
     }
     
     $task=new ServerTask();
-    
-    if($arr_task['data']!=='')
-    {
-        
-        $task->data=json_decode($arr_task['data'], true);
-        
-    }
-    
     
     if($arr_task['server']!='')
     {
@@ -139,9 +133,31 @@ function TaskConsole($task_id)
             
         }
         
+        if($arr_task['data']!=='')
+        {
+            
+            $arr_task['data']=json_decode($arr_task['data'], true);
+            
+        }
+        else
+        {
+            
+            $arr_task['data']=[];
+            
+        }
+        
+        if($arr_task['user_path']!=='')
+        {
+            
+            Leviathan\ConfigTask::$ssh_path=$arr_task['user_path'];
+            
+        }
+        
+        $task->define($arr_task['data']);
+        
         $yes_server=1;
         
-        $task->exec();
+        $task->exec($task_id);
         
         //Execute task
         
@@ -161,7 +177,7 @@ function TaskConsole($task_id)
     if($yes_server==0)
     {
         
-        $logtask->log(['task_id' => $task_id, 'error' => 1, 'progress' => 100, 'message' =>  'No servers defined', 'server' => '']);
+        $logtask->log(['task_id' => $task_id, 'error' => 1, 'status' => 1, 'progress' => 100, 'message' =>  'No servers defined', 'server' => '']);
         exit(1);
         
     }

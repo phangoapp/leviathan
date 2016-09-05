@@ -181,10 +181,12 @@ class Task {
         {
             
             //Upload the files
-            
+            ;
             foreach($this->files as $arr_file)
-            {
-                $file=str_replace('${os_server}', $this->os_server, $arr_file[0]);
+            {   
+                
+                $file=$arr_file[0];
+                
                 $permissions=$arr_file[1];
                 
                 $upload=ConfigTask::$ssh_path.'/'.$file;
@@ -317,7 +319,7 @@ class Task {
                         if(version_compare($version_installed, $version_task)==0)
                         {
                             
-                            $this->logtask->log(['task_id' => $this->id, 'error' => 0, 'progress' => 100, 'message' =>  'Task was executed sucessfully', 'no_progress' => 0, 'server' => $this->server]);
+                            $this->logtask->log(['task_id' => $this->id, 'error' => 0, 'status' => 1, 'progress' => 100, 'message' =>  'Task was executed sucessfully', 'no_progress' => 0, 'server' => $this->server]);
                             
                             return true;
                             
@@ -358,20 +360,21 @@ class Task {
                             
                             $sudo='sudo ';
                             
+                            unset($exec_command[0]);
+                            
                         }
-                        
-                        unset($exec_command[0]);
-                        
-                        $this->command=$exec_command;
-                        
-                        $command=$sudo.ConfigTask::$ssh_path.'/'.trim(implode(' ', $exec_command));
                     
+                        ;
+                        $command=$sudo.ConfigTask::$ssh_path.'/'.trim(implode(' ', $exec_command));
+                        
+                        $this->command=$command;
+                        
                         $ssh->exec($command, $this);
                         
                         if($ssh->isTimeout())
                         {
                             
-                            $this->logtask->log(['task_id' => $this->id, 'error' => 1, 'progress' => 100, 'message' =>  'Error: the task show timeout...', 'no_progress' => 0, 'server' => $this->server]);
+                            $this->logtask->log(['task_id' => $this->id, 'status' => 1, 'error' => 1, 'progress' => 100, 'message' =>  'Error: the task show timeout...', 'no_progress' => 0, 'server' => $this->server]);
                             
                             $error=1;
                             #break;
@@ -382,7 +385,7 @@ class Task {
                         if($ssh->getExitStatus()!=0)
                         {
                             
-                            $this->logtask->log(['task_id' => $this->id, 'error' => 1, 'progress' => 100, 'message' =>  'Error: the task show error. Please, check the database log', 'no_progress' => 0, 'server' => $this->server]);
+                            $this->logtask->log(['task_id' => $this->id, 'error' => 1, 'status' => 1, 'progress' => 100, 'message' =>  'Error: the task show error. Please, check the database log', 'no_progress' => 0, 'server' => $this->server]);
                             
                             /*$error=1;
                             break;*/
@@ -404,7 +407,7 @@ class Task {
                         
                         $this->task->update(['error' => 1, 'status' => 1]);*/
                         
-                        $this->logtask->log(['task_id' => $this->id, 'error' => 1, 'progress' => 100, 'message' =>  $this->txt_error,'server' => $this->server]);
+                        $this->logtask->log(['task_id' => $this->id, 'error' => 1, 'status' => 1, 'progress' => 100, 'message' =>  $this->txt_error,'server' => $this->server]);
                         
                         return false;
                         
@@ -483,7 +486,7 @@ class Task {
                         
                         //$this->task->update(['status' => 1, 'error' => 1]);
                         
-                        $this->logtask->log(['task_id' => $this->id, 'error' => 1, 'progress' => 100, 'message' =>  'Task show error: '.$this->txt_error, 'server' => $this->server]);
+                        $this->logtask->log(['task_id' => $this->id, 'error' => 1, 'status' => 1, 'progress' => 100, 'message' =>  'Task show error: '.$this->txt_error, 'server' => $this->server]);
                         
                         return false;
                         
@@ -507,7 +510,7 @@ class Task {
                     
                     $this->task->set_conditions(['where IdTask=?', [$this->id]]);*/
                     
-                    $this->logtask->log(['task_id' => $this->id, 'error' => 1, 'progress' => 100, 'message' =>  $this->txt_error, 'server' => $this->server]);
+                    $this->logtask->log(['task_id' => $this->id, 'error' => 1, 'status' => 1, 'progress' => 100, 'message' =>  $this->txt_error, 'server' => $this->server]);
                     
                     //$this->task->update(['error' => 1, 'status' => 1]);
                     
@@ -525,7 +528,7 @@ class Task {
                 
                 $this->task->update(['error' => 1, 'status' => 1]);*/
                 
-                $this->logtask->log(['task_id' => $this->id, 'error' => 1, 'progress' => 100, 'message' =>  $this->txt_error, 'server' => $this->server]);
+                $this->logtask->log(['task_id' => $this->id, 'error' => 1, 'status' => 1, 'progress' => 100, 'message' =>  $this->txt_error, 'server' => $this->server]);
                 
                 return false;
                 
