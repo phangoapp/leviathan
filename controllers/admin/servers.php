@@ -44,6 +44,8 @@ function ServersAdmin()
                 
                 $list->where_sql=['where 1=1', []];
                 
+                $list->options_func='server_options';
+                
                 if($_GET['group_id']>0)
                 {
                 
@@ -264,6 +266,19 @@ function server_update_options($arr_row)
 {
     
     return '<input type="checkbox" name="server[]" value="'.$arr_row['IdServer'].'"/>';
+    
+}
+
+function server_options($url_options, $model_name, $id, $arr_row)
+{
+    
+    $arr_options=[];
+    
+    $arr_options[]='<a href="'.AdminUtils::set_admin_link('leviathan/graphs', ['server_id' => $id]).'">'.I18n::lang('phangoapp/leviathan', 'graphs', 'Graphs').'</a>';
+    $arr_options[]='<a href="'.AdminUtils::set_admin_link('leviathan/tasks', ['server_id' => $id]).'">'.I18n::lang('phangoapp/leviathan', 'tasks', 'Tasks').'</a>';
+    $arr_options[]='<a href="'.AdminUtils::set_admin_link('leviathan/servers', ['server_id' => $id, 'op' => 2]).'">'.I18n::lang('phangoapp/leviathan', 'delete_server', 'Delete server').'</a>';
+    
+    return $arr_options;
     
 }
 

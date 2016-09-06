@@ -23,6 +23,7 @@ class Task extends Webmodel {
         $this->register('password', new CoreFields\CharField());
         $this->register('user_path', new CoreFields\CharField());
         $this->register('os_codename', new CoreFields\CharField());
+        $this->register('url_return', new CoreFields\CharField());
         
         /*
         $this->register('url_return', new CoreFields\UrlField());
