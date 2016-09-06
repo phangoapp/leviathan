@@ -47,7 +47,7 @@ class LastUpdatedField extends CoreFields\DateField {
     public function show_formatted($value) 
     {
         
-        $now=DateTime::now(true);
+        $now=DateTime::now(false);
         
         $timestamp_now=DateTime::obtain_timestamp($now);
         
@@ -58,12 +58,12 @@ class LastUpdatedField extends CoreFields\DateField {
         if($timestamp_value<$five_minutes)
         {
             
-            return 'red'; //'<img src="'.make_media_url_module('images/status_red.png', 'pastafari').'" />';
+            return '<img src="'.PhangoApp\PhaView\View::get_media_url('images/status_red.png', $module='leviathan').'" />';
         
         }
         else
         {
-            return 'green'; //return '<img src="'.make_media_url_module('images/status_green.png', 'pastafari').'" />'
+            return '<img src="'.PhangoApp\PhaView\View::get_media_url('images/status_green.png', $module='leviathan').'" />';
             
         }
             
@@ -152,7 +152,6 @@ class StatusNet extends Webmodel {
     {
         
         $this->register('ip', new CoreFields\IpField(), true);
-        $this->components['ip']->unique=true;
         $this->components['ip']->indexed=true;
         $this->register('bytes_sent', new CoreFields\DoubleField());
         $this->register('bytes_recv', new CoreFields\DoubleField());
@@ -173,7 +172,6 @@ class StatusCpu extends Webmodel {
     public function load_components()
     {
         $this->register('ip', new CoreFields\IpField(), true);
-        $this->components['ip']->unique=true;
         $this->components['ip']->indexed=true;
         $this->register('num_cpu', new CoreFields\IntegerField());
         $this->register('idle', new CoreFields\DoubleField());
@@ -184,7 +182,7 @@ class StatusCpu extends Webmodel {
     
 }
 
-class Disk extends Webmodel {
+class StatusDisk extends Webmodel {
     
     public function load_components()
     {
@@ -208,6 +206,8 @@ class StatusMemory extends Webmodel {
     public function load_components()
     {
         
+        $this->register('ip', new CoreFields\IpField(), true);
+        $this->components['ip']->indexed=true;
         $this->register('total', new CoreFields\BigIntegerField());
         $this->register('available', new CoreFields\BigIntegerField());
         $this->register('percent', new CoreFields\DoubleField());
@@ -236,20 +236,20 @@ class DataServer extends Webmodel {
 
         $this->register('server_id', new CoreFields\ForeignKeyField(new Server(), $size=11, $default_id=0, $name_field='hostname', $select_fields=['actual_idle', 'date']), true);
 
-        $this->register('net_id', new CoreFields\ForeignKeyField(Webmodel::$model['statusnet'], $size=11, $default_id=0, $name_field='bytes_sent', $select_fields=['bytes_sent', 'bytes_recv']), true);
+        $this->register('net_id', new CoreFields\ForeignKeyField(new StatusNet(), $size=11, $default_id=0, $name_field='bytes_sent', $select_fields=['bytes_sent', 'bytes_recv']), true);
 
-        $this->register('memory_id', new CoreFields\ForeignKeyField(Webmodel::$model['statusmemory'], $size=11, $default_id=0, $name_field='free', $select_fields=['free','userd','cached']), true);
+        $this->register('memory_id', new CoreFields\ForeignKeyField(new StatusMemory(), $size=11, $default_id=0, $name_field='free', $select_fields=['free','userd','cached']), true);
 
-        $this->register('cpu_id', new CoreFields\ForeignKeyField(Webmodel::$model['statuscpu'], $size=11, $default_id=0, $name_field='idle', $select_fields=['num_cpu']), true);
+        $this->register('cpu_id', new CoreFields\ForeignKeyField(new StatusCpu(), $size=11, $default_id=0, $name_field='idle', $select_fields=['num_cpu']), true);
 
-        $this->register('disk0_id', new CoreFields\ForeignKeyField(Webmodel::$model['disk'], $size=11, $default_id=0, $name_field="disk", $select_fields=['free', 'used', 'size', 'percent']));
+        $this->register('disk0_id', new CoreFields\ForeignKeyField(new StatusDisk(), $size=11, $default_id=0, $name_field="disk", $select_fields=['free', 'used', 'size', 'percent']));
 
-        $this->register('disk1_id', new CoreFields\ForeignKeyField(Webmodel::$model['disk'], $size=11, $default_id=0, $name_field="disk", $select_fields=['free', 'used', 'size', 'percent']));
+        $this->register('disk1_id', new CoreFields\ForeignKeyField(new StatusDisk(), $size=11, $default_id=0, $name_field="disk", $select_fields=['free', 'used', 'size', 'percent']));
 
-        $this->register('disk2_id', new CoreFields\ForeignKeyField(Webmodel::$model['disk'], $size=11, $default_id=0, $name_field="disk", $select_fields=['free', 'used', 'size', 'percent']));
-        $this->register('disk3_id', new CoreFields\ForeignKeyField(Webmodel::$model['disk'], $size=11, $default_id=0, $name_field="disk", $select_fields=['free', 'used', 'size', 'percent']));
-        $this->register('disk4_id', new CoreFields\ForeignKeyField(Webmodel::$model['disk'], $size=11, $default_id=0, $name_field="disk", $select_fields=['free', 'used', 'size', 'percent']));
-        $this->register('disk5_id', new CoreFields\ForeignKeyField(Webmodel::$model['disk'], $size=11, $default_id=0, $name_field="disk", $select_fields=['free', 'used', 'size', 'percent']));
+        $this->register('disk2_id', new CoreFields\ForeignKeyField(new StatusDisk(), $size=11, $default_id=0, $name_field="disk", $select_fields=['free', 'used', 'size', 'percent']));
+        $this->register('disk3_id', new CoreFields\ForeignKeyField(new StatusDisk(), $size=11, $default_id=0, $name_field="disk", $select_fields=['free', 'used', 'size', 'percent']));
+        $this->register('disk4_id', new CoreFields\ForeignKeyField(new StatusDisk(), $size=11, $default_id=0, $name_field="disk", $select_fields=['free', 'used', 'size', 'percent']));
+        $this->register('disk5_id', new CoreFields\ForeignKeyField(new StatusDisk(), $size=11, $default_id=0, $name_field="disk", $select_fields=['free', 'used', 'size', 'percent']));
         
     }
     

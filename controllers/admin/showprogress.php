@@ -17,6 +17,8 @@ function ShowProgressAdmin()
     settype($_GET['server'], 'string');
     settype($_GET['position'], 'integer');
     
+    $_GET['server']=PhangoApp\PhaUtils\Utils::form_text($_GET['server']);
+    
     $s=new Server();
     $g=new ServerGroup();
     $t=new Task();
@@ -30,18 +32,18 @@ function ShowProgressAdmin()
     if($arr_task)
     {
         
-        $s->set_conditions(['where ip=?', [$_GET['server']] ]);
+        /*$s->set_conditions(['where ip=?', [$_GET['server']] ]);
         
         $arr_server=$s->select_a_row_where();
         
         if($arr_server)
-        {
+        {*/
                     
             switch($_GET['op'])
             {
                 default:
                     
-                    echo View::load_view([$arr_task['name_task'], $arr_server['hostname'], $arr_task['description_task'], $_GET['task_id'], $arr_server['ip']] , 'leviathan/progress', 'phangoapp/leviathan');
+                    echo View::load_view([$arr_task['name_task'], $arr_task['hostname'], $arr_task['description_task'], $_GET['task_id'], $_GET['server']] , 'leviathan/progress', 'phangoapp/leviathan');
                 
                 break;
             
@@ -57,7 +59,7 @@ function ShowProgressAdmin()
                 
                     $logtask->set_order(['IdLogtask' => 0]);
                     
-                    $logtask->set_conditions(['WHERE task_id=? and server=?', [$_GET['task_id'], $arr_server['ip']]]);
+                    $logtask->set_conditions(['WHERE task_id=? and server=?', [$_GET['task_id'], $_GET['server']]]);
                     
                     $c=$logtask->select_count('IdLogtask', [], false);
                     
@@ -150,7 +152,13 @@ function ShowProgressAdmin()
             }
             
             
-        }
+        /*}
+        else
+        {
+            
+            
+            
+        }*/
     }
 }
 

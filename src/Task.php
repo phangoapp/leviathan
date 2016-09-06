@@ -69,11 +69,11 @@ class Task {
         
         $this->enable_pty=false;
         
-        $this->pre_task='';
+        /*$this->pre_task=false;
         
-        $this->post_task='';
+        $this->post_task=false;
         
-        $this->error_task='';
+        $this->error_task=false;*/
         
         $this->data=[];
         
@@ -84,6 +84,29 @@ class Task {
         $this->tmp_dir='/tmp';
 
     }
+    
+    public function pre_task()
+    {
+        
+        return true;
+        
+    }
+    
+    public function post_task()
+    {
+        
+        return true;
+        
+    }
+    
+    public function error_task()
+    {
+        
+        return true;
+        
+    }
+    
+    
     
     public function prepare_connection()
     {
@@ -102,7 +125,7 @@ class Task {
 
                     if(!($file_key=file_get_contents(ConfigTask::$ssh_key_priv[$this->index_ssh_key])))
                     {
-                        
+                        $this->error_task();
                         $this->txt_error='Error: wrong ssh key';
                         return false;
 
@@ -111,7 +134,7 @@ class Task {
 
                     if(!$key->loadKey($file_key))
                     {
-
+                        $this->error_task();
                         $this->txt_error='Error: cannot load ssh key';
                         return false;
 
@@ -120,7 +143,7 @@ class Task {
                 }
                 else
                 {
-                    
+                    $this->error_task();
                     $this->txt_error='Error: no exists ssh key file';
                     return false;
                     
@@ -130,6 +153,7 @@ class Task {
             }
             catch(Exception $e) {
                 
+                $this->error_task();
                 $this->txt_error='Error: cannot load ssh key:'.$e->getMessage();
                 return false;
                 
@@ -152,6 +176,8 @@ class Task {
             if (!$sftp->login($this->user, $key)) 
             {
 
+                $this->error_task();
+
                 $this->txt_error='Error: cannot login in the server. Check that server is up';
             
                 return false;
@@ -162,6 +188,8 @@ class Task {
         catch(\Exception $e) {
             
             $sftp->disconnect();
+            
+            $this->error_task();
             
             $this->txt_error='Error: cannot to the the server. Check that server is up';
             
@@ -205,6 +233,7 @@ class Task {
 
                 if(!$return_trans)
                 {       
+                        $this->error_task();
                         $this->txt_error='Error: cannot upload files to the server: '.$file;
                         return false;
                 }
@@ -213,6 +242,7 @@ class Task {
                 
                 if(!$return_perm)
                 {
+                        $this->error_task();
                         $this->txt_error='Error: cannot change permissions in server';
                         return false;
                 }
@@ -238,6 +268,7 @@ class Task {
             
             if(!$sftp->delete($file_remote))
             {
+                $this->error_task();
                 $this->txt_error='Error: cannot clean the files...';
                 return false;
                 
@@ -252,7 +283,7 @@ class Task {
             
             if(!$sftp->delete($dir_remote, true))
             {
-                
+                $this->error_task();
                 $this->txt_error='Error: cannot clean the directories...';
                 return false;
                 
@@ -283,6 +314,7 @@ class Task {
         
             if(!$this->task->insert($arr_task))
             {
+                $this->error_task();
                 
                 $this->txt_error='Error: cannot insert the task in the database '.$this->task->std_error;
                 
@@ -329,12 +361,8 @@ class Task {
                     
                 }
                 
-                if($this->pre_task!=='')
-                {
-                    
-                    $this->pre_task($this);
-                    
-                }
+                
+                $this->pre_task();
                 
                 if($this->upload_files($ssh))
                 {
@@ -374,6 +402,8 @@ class Task {
                         if($ssh->isTimeout())
                         {
                             
+                            $this->error_task();
+                            
                             $this->logtask->log(['task_id' => $this->id, 'status' => 1, 'error' => 1, 'progress' => 100, 'message' =>  'Error: the task show timeout...', 'no_progress' => 0, 'server' => $this->server]);
                             
                             $error=1;
@@ -384,6 +414,8 @@ class Task {
                         
                         if($ssh->getExitStatus()!=0)
                         {
+                            
+                            $this->error_task();
                             
                             $this->logtask->log(['task_id' => $this->id, 'error' => 1, 'status' => 1, 'progress' => 100, 'message' =>  'Error: the task show error. Please, check the database log', 'no_progress' => 0, 'server' => $this->server]);
                             
@@ -399,6 +431,9 @@ class Task {
                     
                     if(!$this->clean_files($ssh))
                     {
+                        
+                        $this->error_task();
+                        
                         $ssh->disconnect();
                         
                         /*$this->task->reset_require();
@@ -460,13 +495,8 @@ class Task {
                         
                         
                         $ssh->disconnect();
-                    
-                        if($this->post_task!=='')
-                        {
                             
-                            $this->post_task($this);
-                            
-                        }
+                        $this->post_task($this);
                         
                         $this->grouptask->create_forms();
                         
@@ -484,6 +514,8 @@ class Task {
                         
                         $ssh->disconnect();
                         
+                        $this->error_task();
+                        
                         //$this->task->update(['status' => 1, 'error' => 1]);
                         
                         $this->logtask->log(['task_id' => $this->id, 'error' => 1, 'status' => 1, 'progress' => 100, 'message' =>  'Task show error: '.$this->txt_error, 'server' => $this->server]);
@@ -498,13 +530,8 @@ class Task {
                 {
                     
                     $ssh->disconnect();
-                    
-                    if($this->error_task!=='')
-                    {
                         
-                        $this->error_task($this);
-                        
-                    }
+                    $this->error_task();
                     
                     /*$this->task->reset_require();
                     
@@ -528,6 +555,8 @@ class Task {
                 
                 $this->task->update(['error' => 1, 'status' => 1]);*/
                 
+                $this->error_task();
+                
                 $this->logtask->log(['task_id' => $this->id, 'error' => 1, 'status' => 1, 'progress' => 100, 'message' =>  $this->txt_error, 'server' => $this->server]);
                 
                 return false;
@@ -536,6 +565,8 @@ class Task {
             
         }
         catch(Exception $e) {
+            
+            $this->error_task();
             
             $this->txt_error=$e->getMessage();
         

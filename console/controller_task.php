@@ -159,6 +159,13 @@ function TaskConsole($task_id)
         
         $task->exec($task_id);
         
+        /*if(!$task->exec($task_id))
+        {
+             
+             $logtask->log(['task_id' => $task_id, 'error' => 1, 'status' => 1, 'progress' => 100, 'message' =>  $task->txt_error, 'server' => $arr_task['server']]);
+             
+        }*/
+        
         //Execute task
         
     }

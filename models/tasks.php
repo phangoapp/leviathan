@@ -17,6 +17,7 @@ class Task extends Webmodel {
         $this->register('path', new CoreFields\CharField());
         $this->register('data', new CoreFields\ArrayField(new CoreFields\CharField('data')));
         $this->register('server', new CoreFields\IpField());
+        $this->register('hostname', new CoreFields\CharField());
         $this->register('where_sql_server', new CoreFields\CharField());
         $this->register('user', new CoreFields\CharField());
         $this->register('password', new CoreFields\CharField());
