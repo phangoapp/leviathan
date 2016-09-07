@@ -223,7 +223,7 @@ function form_add($s, $g, $os, $post=[])
         if(isset($check_post['ip']))
         {
             
-            if($s->select_count()>0)
+            if($s->where(['where ip=?', [$check_post['ip']]])->select_count()>0)
             {
                 
                 $check_post=false;
@@ -265,7 +265,7 @@ function form_add($s, $g, $os, $post=[])
 function server_update_options($arr_row)
 {
     
-    return '<input type="checkbox" name="server[]" value="'.$arr_row['IdServer'].'"/>';
+    return '<input type="checkbox" name="server[]" value="'.$arr_row['IdServer'].'pe"/>';
     
 }
 

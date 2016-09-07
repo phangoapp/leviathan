@@ -45,20 +45,26 @@ function ServersView($groups, $list, $op, $group_id, $yes_form, $type)
         case 1:
         
             ?>
-            <form method="post" action="<?php echo AdminUtils::set_admin_link('leviathan/updates'); ?>">
+            <form method="post" id="updates_form" action="<?php echo AdminUtils::set_admin_link('leviathan/updates'); ?>">
+            <input type="hidden" name="group_id" value="<?php echo $group_id; ?>" />
+            <input type="hidden" id="all_servers_choose" name="all_servers" value="0" />
             <?php
         
-            $close_form='<p><input type="button" value="'.I18n::lang('phangoapp/leviathan', 'all_servers', 'Make task in all servers').'" /> <input type="submit" value="'.I18n::lang('phangoapp/leviathan', 'update_servers', 'Update all servers').'" /></p></form>';
+            $close_form='<p><input type="button" id="all_servers_update" value="'.I18n::lang('phangoapp/leviathan', 'all_servers', 'Update all servers').'" /> <input type="submit" value="'.I18n::lang('phangoapp/leviathan', 'update_servers', 'Update selected servers').'" /></p></form>';
         
         break;
         
         case 2:
         
             ?>
-            <form method="post" action="<?php echo AdminUtils::set_admin_link('leviathan/maketask'); ?>">
+            <form method="post" id="tasks_form" action="<?php echo AdminUtils::set_admin_link('leviathan/maketask'); ?>">
+            <input type="hidden" name="group_id" value="<?php echo $group_id; ?>" />
+            <input type="hidden" id="all_servers_choose" name="all_servers" value="0" />
             <?php
+            
+            //Here generate select task form
         
-            $close_form='<p><input type="button" value="'.I18n::lang('phangoapp/leviathan', 'all_servers', 'Make task in all servers').'" /> <input type="submit" value="'.I18n::lang('phangoapp/leviathan', 'update_servers', 'Update all servers').'" /></p></form>';
+            $close_form='<p><input type="button" id="all_servers_task" value="'.I18n::lang('phangoapp/leviathan', 'all_servers', 'Make task in all servers').'" /> <input type="submit" value="'.I18n::lang('phangoapp/leviathan', 'update_servers', 'Make task in selected servers').'" /></p></form>';
         
         break;
         
@@ -67,6 +73,26 @@ function ServersView($groups, $list, $op, $group_id, $yes_form, $type)
     $list->show();
     
     echo $close_form;
+    
+    ?>
+    <script>
+        $('#all_servers_update').click(function () {
+           
+           $('#all_servers_choose').val(1);
+           
+           $('#updates_form').submit();
+            
+        });
+        
+        $('#all_servers_task').click(function () {
+           
+           $('#all_servers_choose').val(1);
+           
+           $('#tasks_form').submit();
+            
+        });
+    </script>
+    <?php
 
 }
 

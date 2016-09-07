@@ -46,7 +46,7 @@ class MonitController extends Controller {
                 if($arr_server) 
                 {
                     
-                    $arr_update=['status' => 1, 'monitoring' => 1, 'date' => DateTime::now()];
+                    $arr_update=['status' => 1, 'monitoring' => 1, 'date' => $now];
                     
                     $arr_info=json_decode($_POST['data_json'], true);
                     
@@ -192,7 +192,7 @@ class MonitController extends Controller {
                 
                 $server->create_forms();
                 
-                $server->update($arr_update);
+                $server->where(['WHERE ip=?', [$ip]])->update($arr_update);
                 
                 # Save middle table for all statuses of a server
                 

@@ -33,6 +33,8 @@ class ConfigTask {
     
     static public $ssh_port=22;
     
+    static public $num_forks=20;
+    
 
 }
 

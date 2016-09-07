@@ -1,2 +1,2 @@
-*/2 * * * * pzoo /home/spanel/modules/pastafari/scripts/monit/centos7/files/get_info.py
+*/2 * * * * pzoo /home/spanel/vendor/phangoapp/leviathan/scripts/monit/centos7/files/get_info.py
 
