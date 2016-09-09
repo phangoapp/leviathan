@@ -82,6 +82,8 @@ class Task {
         $this->version=__DIR__.'/version';
         
         $this->tmp_dir='/tmp';
+        
+        $this->yes_form=0;
 
     }
     
@@ -106,7 +108,19 @@ class Task {
         
     }
     
+    public function form()
+    {
+        
+        return '';
+        
+    }
     
+    public function save_data($data)
+    {
+        
+        return '';
+        
+    }
     
     public function prepare_connection()
     {

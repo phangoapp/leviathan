@@ -1,0 +1,5 @@
+{
+    "name": "Standalone Postifx server",
+    "path": "tasks/servers/mail/standalone_postfix"
+}
+

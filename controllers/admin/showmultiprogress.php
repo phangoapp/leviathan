@@ -139,9 +139,6 @@ function ShowMultiProgressAdmin()
                         
                         $arr_log=array_merge($arr_log2, $arr_log);
                         
-                        #response.set_header('Content-type', 'text/plain')
-                        
-                        #return json.dumps(arr_log)
                     }
                     else
                     {

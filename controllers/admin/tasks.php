@@ -25,12 +25,6 @@ function TasksAdmin()
     
     if($arr_server)
     {
-    
-        /*$arr_op[0]=['link' => AdminUtils::set_admin_link('leviathan/tasks', ['op' => 0, 'server_id' => $_GET['server_id']]), 'text' =>  I18n::lang('phangoapp/leviathan', 'tasks_log', 'Tasks\' log' )];
-        
-        $arr_op[1]=['link' => AdminUtils::set_admin_link('leviathan/tasks', ['op' => 1, 'server_id' => $_GET['server_id']]), 'text' =>  I18n::lang('phangoapp/leviathan', 'progress_log', 'Progress logs' )];
-        
-        echo MenuSelected::menu_selected($_GET['op'], $arr_op, 1);*/
         
         switch($_GET['op'])
         {
@@ -50,12 +44,6 @@ function TasksAdmin()
                 $list->order_by=['IdTask' => 1];
                 
                 $list->options_func='options_task';
-                
-                /*
-                
-                $list->yes_options=0;
-                
-                $list->set_order(['IdTask*/
                 
                 $list->show();
             

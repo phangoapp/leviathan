@@ -28,8 +28,10 @@ function multiprogressView($name_task, $description_task, $task_id, $num_servers
     total_servers=<?php echo $num_servers; ?>;
     total_servers_log=0;
     total_servers_done=0;
+    servers_to_delete=[];
+    deleted=0;
     
-    arr_servers=[]
+    arr_servers=[];
     
     if(total_servers>0)
     {
@@ -70,7 +72,7 @@ function multiprogressView($name_task, $description_task, $task_id, $num_servers
                         
                         row.children('.hostname').html(data.servers[x].hostname);
                         
-                        row.children('.progress').children('a').attr('href', '<?php echo AdminUtils::set_admin_link('leviathan/showprogress', ['task_id' =>  $task_id]); ?>/'+data.servers[x].ip);
+                        row.children('.progress').children('a').attr('href', '<?php echo AdminUtils::set_admin_link('leviathan/showprogress', ['task_id' =>  $task_id]); ?>/server/'+data.servers[x].ip);
                         
                         
                         arr_servers.push(data.servers[x].ip);
@@ -118,7 +120,7 @@ function multiprogressView($name_task, $description_task, $task_id, $num_servers
            {
            
                for(x in data) {
-                   
+                    
                     if(data[x].status==1) {
                     
                         server_index=arr_servers.indexOf(data[x].server)
@@ -130,7 +132,7 @@ function multiprogressView($name_task, $description_task, $task_id, $num_servers
                             arr_servers.splice(server_index, 1);
                             
                         }
-                    
+                        
                         if(data[x].error==1) {
                             //alert($('#'+data[x].server).attr('id'));
                             //$('#'+data[x].server);
@@ -149,15 +151,7 @@ function multiprogressView($name_task, $description_task, $task_id, $num_servers
                             server_dom.children('.progress').children('i').addClass('fa-check');
                             server_dom.children('.progress').children('i').css('color', '#005a00');
                             
-                            setTimeout(function () {
-                                
-                                $(document.getElementById(data[x].server)).fadeOut(1000, function() {
-                                    
-                                    $(document.getElementById(data[x].server)).remove();
-                                    
-                                });
-                                
-                            }, 5000);
+                            servers_to_delete.push(data[x].server);
                             
                         }
                         
@@ -177,9 +171,43 @@ function multiprogressView($name_task, $description_task, $task_id, $num_servers
                 if(total_servers_done<total_servers) {
                
                     setTimeout(get_servers, 1000);
+                    
+                    //Delete servers
+                
+                    c=servers_to_delete.length;
+                    
+                    for(x=deleted;x<c;x++)
+                    {
+                            
+                        $(document.getElementById(servers_to_delete[x])).fadeOut(1000, function() {
+                    
+                            $(document.getElementById(servers_to_delete[x])).remove();
+                        
+                        });
+                                    
+                    }
+                    
+                    deleted=c;
             
                 }
                 else {
+                    
+                    //Delete servers
+                    
+                    c=servers_to_delete.length;
+                    
+                    for(x=deleted;x<c;x++)
+                    {
+                     
+                        $(document.getElementById(servers_to_delete[x])).fadeOut(1000, function() {
+                    
+                            $(document.getElementById(servers_to_delete[x])).remove();
+                        
+                        });
+                                    
+                    }
+                    
+                    deleted=c;
                     
                     $('#detecting_servers').fadeOut(1);
                     $('#finished').fadeIn(1000);

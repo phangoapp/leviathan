@@ -3,9 +3,22 @@
 use PhangoApp\PhaLibs\AdminUtils;
 use PhangoApp\PhaUtils\MenuSelected;
 use PhangoApp\PhaI18n\I18n;
+use PhangoApp\PhaView\View;
 
-function ServersView($groups, $list, $op, $group_id, $yes_form, $type)
+function ServersView($groups, $list, $op, $group_id, $yes_form, $type, $tasks_select)
 {
+    
+    ob_start();
+    
+    ?>
+    <style>
+       .secundary_task { display:none; }
+    </style>
+    <?php
+    
+    View::$header[]=ob_get_contents();
+    
+    ob_end_clean();
     
     ?>
     <p>
@@ -63,6 +76,21 @@ function ServersView($groups, $list, $op, $group_id, $yes_form, $type)
             <?php
             
             //Here generate select task form
+            
+            generate_task_select($tasks_select);
+            
+            ?>
+            <script>
+                $('.show_children').click( function () {
+                    
+                    //alert($(this).parent().children('ul').attr('class'));
+                    $(this).parent().children('ul').show();
+                    
+                    return false;
+                    
+                });
+            </script>
+            <?php
         
             $close_form='<p><input type="button" id="all_servers_task" value="'.I18n::lang('phangoapp/leviathan', 'all_servers', 'Make task in all servers').'" /> <input type="submit" value="'.I18n::lang('phangoapp/leviathan', 'update_servers', 'Make task in selected servers').'" /></p></form>';
         
@@ -94,6 +122,38 @@ function ServersView($groups, $list, $op, $group_id, $yes_form, $type)
     </script>
     <?php
 
+}
+
+function generate_task_select($tasks_select, $class_element='first_task')
+{
+ 
+    foreach($tasks_select as $task_select)
+    {
+        
+        echo '<ul class="'.$class_element.'">';
+        if(isset($task_select['dir']))
+        {
+            echo '<li><a href="#" class="show_children">'.$task_select['name'].'</a>';
+            generate_task_select($task_select['dir'], 'secundary_task');
+            
+        }
+        else
+        {
+            
+            echo '<li>'.$task_select['name'];
+            
+            if(isset($task_select['path']))
+            {
+            
+                echo '<input type="radio" name="task" value="'.base64_encode($task_select['path']).'" />';
+                
+            }
+            
+        }
+        echo '</li></ul>';
+        
+    }
+    
 }
 
 ?>

@@ -20,24 +20,7 @@ function UpdatesAdmin()
     settype($_POST['group_id'], 'integer');
     settype($_POST['all_servers'], 'integer');
     
-    /*
-    | IdTask           | int(11)      | NO   | PRI | NULL    | auto_increment |
-    | name_task        | varchar(255) | NO   |     |         |                |
-    | description_task | varchar(255) | NO   |     |         |                |
-    | codename_task    | varchar(255) | NO   |     |         |                |
-    | data             | text         | NO   |     | NULL    |                |
-    | path             | varchar(255) | NO   |     |         |                |
-    | server           | varchar(255) | NO   |     |         |                |
-    | where_sql_server | varchar(255) | NO   |     |         |                |
-    | user             | varchar(255) | NO   |     |         |                |
-    | password         | varchar(255) | NO   |     |         |                |
-    | os_codename      | varchar(255) | NO   |     |         |                |
-    | user_path        | varchar(255) | NO   |     |         |                |
-    | hostname         | varchar(255) | NO   |     |         |                |
-    | url_return       | varchar(255) | NO   |     |         |                |
-    */
-    
-    $post=['name_task' => I18n::lang('phangoapp/leviathan', 'update_servers', 'Update servers'), 'description_task' => I18n::lang('phangoapp/leviathan', 'update_servers_os', 'Update server using the native package manager'), 'codename_task' => 'update_server', 'path' => 'tasks/tests'];
+    $post=['name_task' => I18n::lang('phangoapp/leviathan', 'update_servers', 'Update servers'), 'description_task' => I18n::lang('phangoapp/leviathan', 'update_servers_os', 'Update server using the native package manager'), 'codename_task' => 'update_server', 'path' => 'vendor/phangoapp/leviathan/tasks/system/updates'];
     
     $post['where_sql_server']='where 1=1';
     

@@ -46,12 +46,16 @@ function ServersAdmin()
                 
                 $list->options_func='server_options';
                 
+                $list->num_by_page=100;
+                
                 if($_GET['group_id']>0)
                 {
                 
                     $list->where_sql=['where IdServer IN (select server_id from servergroupitem where group_id=?)', [$_GET['group_id']]];
                     
                 }
+                
+                $tasks_select=[];
                 
                 $yes_form=0;
                 
@@ -105,6 +109,14 @@ function ServersAdmin()
                         $list->arr_extra_fields_func=['server_update_options'];
                         
                         $yes_form=2;
+                        
+                        $tasks_select=search_tasks('vendor/phangoapp/leviathan/tasks');
+                        
+                        /*echo '<pre>';
+                        
+                        print_r($tasks_select);
+                        
+                        echo '</pre>';*/
                     
                     break;
                 
@@ -112,7 +124,7 @@ function ServersAdmin()
 
                 $groups=new PhangoApp\PhaModels\Forms\SelectModelForm('group_id',   $_GET['group_id'],   $g,   'name',   'IdServergroup') ;
 
-                echo View::load_view([$groups, 'list' => $list,  $_GET['op'], $_GET['group_id'], $yes_form, $_GET['type']], 'leviathan/servers', 'phangoapp/leviathan');
+                echo View::load_view([$groups, 'list' => $list,  $_GET['op'], $_GET['group_id'], $yes_form, $_GET['type'], $tasks_select], 'leviathan/servers', 'phangoapp/leviathan');
             
             break;
             
@@ -279,6 +291,77 @@ function server_options($url_options, $model_name, $id, $arr_row)
     $arr_options[]='<a href="'.AdminUtils::set_admin_link('leviathan/servers', ['server_id' => $id, 'op' => 2]).'">'.I18n::lang('phangoapp/leviathan', 'delete_server', 'Delete server').'</a>';
     
     return $arr_options;
+    
+}
+
+function search_tasks($dir)
+{
+    
+    $search_dir=scandir($dir);
+                        
+    foreach($search_dir as $d)
+    {
+        
+        if($d!='.' && $d!='..' && $d!='system')
+        {
+            
+            
+            $path_new=$dir.'/'.$d;
+            
+            if(is_dir($path_new))
+            {
+                
+                
+                $arr_dir[$dir]['dir']=search_tasks($path_new);
+                
+            }
+            
+            if($d=='info.json')
+            {
+                $info_json=json_decode(file_get_contents($path_new), true);
+                $arr_dir[$dir]['name']=$info_json['name'];
+                
+                
+                if(isset($info_json['path']))
+                {
+                    
+                    $arr_dir[$dir]['path']=$info_json['path'];
+                    
+                }
+            }
+            
+            /*$path_new=$dir.'/'.$d;
+            
+            if(is_dir($path_new))
+            {
+                
+                $arr_dir[$path_new]=search_tasks($path_new, $arr_dir);
+                
+            }
+            
+            if($d=='info.json')
+            {
+                
+                $info_json=json_decode(file_get_contents($path_new), true);
+                
+                $arr_dir[$dir]['name']=$info_json['name'];
+                
+                if(isset($info_json['path']))
+                {
+                    
+                    $arr_dir[$dir]['path']=$info_json['path'];
+                    
+                }
+                
+            }*/
+            
+            //$arr_dir[$dir][]=
+            
+        }
+        
+    }
+    
+    return $arr_dir;
     
 }
 
