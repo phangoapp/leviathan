@@ -205,8 +205,20 @@ function MakeTaskAdmin()
                 
                 $taskmodel->define();
                 
-                echo $taskmodel->form();
+                if($yes_form)
+                {
+                
+                    echo $taskmodel->form();
+                    
+                }
+                
             }
+        
+        break;
+        
+        case 2:
+        
+            
         
         break;
         

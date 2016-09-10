@@ -1,2 +1,5 @@
-{"name": "Mariadb/MySQL server"}
+{
+    "name": "Mariadb/MySQL server",
+    "path": "tasks/servers/databases/mariadb"
+}
 

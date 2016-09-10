@@ -48,6 +48,14 @@ function ServersAdmin()
                 
                 $list->num_by_page=100;
                 
+                $list->field_search='hostname';
+                
+                $list->order=1;
+                
+                $list->yes_search=1;
+                
+                $list->url_options=AdminUtils::set_admin_link('leviathan/servers');
+                
                 if($_GET['group_id']>0)
                 {
                 
@@ -166,13 +174,29 @@ function ServersAdmin()
                     //Guzzle
                     PhangoApp\PhaLibs\AdminUtils::$show_admin_view=false;
                     
-                    $client=new GuzzleHttp\Client();
+                    try {
                     
-                    $client->request('GET', ConfigTask::$url_server, [
-                        'query' => ['task_id' => $id, 'api_key' => ConfigTask::$api_key]
-                    ]);
+                        $client=new GuzzleHttp\Client();
+                        
+                        $response=$client->request('GET', ConfigTask::$url_server, [
+                            'query' => ['task_id' => $id, 'api_key' => ConfigTask::$api_key]
+                        ]);
+                        
+                        die(header('Location: '.AdminUtils::set_admin_link('leviathan/showprogress', ['task_id' => $id, 'server' => $post['ip']])));
                     
-                    die(header('Location: '.AdminUtils::set_admin_link('leviathan/showprogress', ['task_id' => $id, 'server' => $post['ip']])));
+                    } catch (Exception $e) {
+                        
+                        PhangoApp\PhaLibs\AdminUtils::$show_admin_view=true;
+                        
+                        echo 'Cannot connect to task server: '.$e->getMessage();
+                        
+                        if(!$s->where(['where IdServer=?', [$server_id]])->delete())
+                        {
+                            echo '<p>Error: cannot delete the entrance for the new server failed in database</p>';
+                        }
+                        
+                    }
+                    
                 
                 }
                 
@@ -308,11 +332,32 @@ function search_tasks($dir)
             
             $path_new=$dir.'/'.$d;
             
+            if($d=='info.json')
+            {
+                $info_json=json_decode(file_get_contents($path_new), true);
+                $arr_dir[$dir]['name']=$info_json['name'];
+                
+                if(isset($info_json['path']))
+                {
+                    
+                    $arr_dir[$dir]['path']=$info_json['path'];
+                    
+                }
+            }
+            
+            if(is_dir($path_new))
+            {
+                
+                $arr_dir[$dir]['dir'][]=search_tasks($path_new);
+                
+            }
+            
+            /*
             if(is_dir($path_new))
             {
                 
                 
-                $arr_dir[$dir]['dir']=search_tasks($path_new);
+                $arr_dir[$dir][]['dir']=search_tasks($path_new);
                 
             }
             
@@ -328,7 +373,7 @@ function search_tasks($dir)
                     $arr_dir[$dir]['path']=$info_json['path'];
                     
                 }
-            }
+            }*/
             
             /*$path_new=$dir.'/'.$d;
             

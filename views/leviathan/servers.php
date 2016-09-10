@@ -134,7 +134,13 @@ function generate_task_select($tasks_select, $class_element='first_task')
         if(isset($task_select['dir']))
         {
             echo '<li><a href="#" class="show_children">'.$task_select['name'].'</a>';
-            generate_task_select($task_select['dir'], 'secundary_task');
+            
+            foreach($task_select['dir'] as $d)
+            {
+            
+                generate_task_select($d, 'secundary_task');
+                
+            }
             
         }
         else

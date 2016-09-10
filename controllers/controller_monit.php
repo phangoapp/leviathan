@@ -10,6 +10,8 @@ class MonitController extends Controller {
 	public function home()
 	{
         
+        settype($_GET['api_key'], 'string');
+        
         Webmodel::load_model('vendor/phangoapp/leviathan/models/servers');
         Webmodel::load_model('vendor/phangoapp/leviathan/models/tasks');
         
