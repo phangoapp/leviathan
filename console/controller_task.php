@@ -134,6 +134,16 @@ function TaskConsole($task_id)
         
         $arr_task['data']=json_decode($arr_task['data'], true);
         
+        $taskmodel->fields_to_update=['data'];
+        
+        $taskmodel->reset_require();
+        
+        $taskmodel->set_conditions(['where IdTask=?', [$task_id]]);
+        
+        //$taskmodel->update(['password' => '']);
+        
+        $taskmodel->reload_require();
+        
     }
     else
     {
@@ -149,7 +159,11 @@ function TaskConsole($task_id)
         
     }
     
-    $task->define($arr_task['data']);
+    $task->define();
+    
+    $task->data=$arr_task['data'];
+    
+    $task->process_data();
     
     $yes_server=0;
     
@@ -211,6 +225,8 @@ function TaskConsole($task_id)
                 $taskmodel->connect_to_db();
                 
                 $task->server=$arr_server['ip'];
+                
+                $task->os_server=$arr_server['os_codename'];
             
                 $task->exec($task_id);
                 

@@ -108,17 +108,31 @@ class Task {
         
     }
     
-    public function form()
+    public function form($values)
     {
         
         return '';
         
     }
     
-    public function save_data($data)
+    public function process_form($values)
     {
         
-        return '';
+        return true;
+        
+    }
+    
+    public function process_data()
+    {
+        
+        return true;
+        
+    }
+    
+    public function define()
+    {
+        
+        return true;
         
     }
     
@@ -228,6 +242,8 @@ class Task {
             {   
                 
                 $file=$arr_file[0];
+                
+                $file=str_replace('${os_server}', $this->os_server, $file);
                 
                 $permissions=$arr_file[1];
                 
@@ -405,6 +421,12 @@ class Task {
                             unset($exec_command[0]);
                             
                         }
+                        
+                        array_walk($exec_command, function (&$item, $value) {
+                           
+                           $item=str_replace('${os_server}', $this->os_server, $item);
+                            
+                        });
                     
                         ;
                         $command=$sudo.ConfigTask::$ssh_path.'/'.trim(implode(' ', $exec_command));

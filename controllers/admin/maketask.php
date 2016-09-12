@@ -201,27 +201,60 @@ function MakeTaskAdmin()
             { 
                 include($task_path.'/task.php');
                 
-                $taskmodel=new ServerTask();
+                $taskobj=new ServerTask();
                 
-                $taskmodel->define();
+                $taskobj->id=$_GET['task_id'];
                 
-                if($yes_form)
+                $taskobj->define();
+                
+                if($taskobj->yes_form)
                 {
+                    if(PhangoApp\PhaRouter\Routes::$request_method=='GET')
+                    {
                 
-                    echo $taskmodel->form();
+                        echo View::load_view([$_GET['task_id'], $taskobj->form([])], 'leviathan/maketaskform', 'phangoapp/leviathan');
+                    
+                    
+                    }
+                    else
+                    if(PhangoApp\PhaRouter\Routes::$request_method=='POST')
+                    {
+                     
+                        if($taskobj->process_form($_POST))
+                        {
+                            
+                            //Send task to server
+                            try {
+                            
+                                $client=new GuzzleHttp\Client();
+                                    
+                                $client->request('GET', ConfigTask::$url_server, [
+                                    'query' => ['task_id' => $taskobj->id, 'api_key' => ConfigTask::$api_key]
+                                ]);
+                                
+                                die(header('Location: '.AdminUtils::set_admin_link('leviathan/showmultiprogress', ['task_id' => $taskobj->id])));
+                            } catch (Exception $e) {
+                                
+                                echo $e->getMessage();
+                                
+                            }
+                            
+                        }
+                        else
+                        {
+                            
+                            echo View::load_view([$_GET['task_id'], $taskobj->form($_POST)], 'leviathan/maketaskform', 'phangoapp/leviathan');
+                            
+                        }
+                        
+                    }
+                
                     
                 }
                 
             }
         
         break;
-        
-        case 2:
-        
-            
-        
-        break;
-        
         
     }
     
