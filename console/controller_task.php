@@ -159,9 +159,9 @@ function TaskConsole($task_id)
         
     }
     
-    $task->define();
-    
     $task->data=$arr_task['data'];
+    
+    $task->define();
     
     $task->process_data();
     

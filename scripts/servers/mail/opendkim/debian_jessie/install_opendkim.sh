@@ -17,8 +17,8 @@ sudo touch /etc/opendkim/SigningTable
 sudo chgrp opendkim /etc/opendkim/ *
 sudo chmod g+r /etc/opendkim/ * 
 
-sudo cp modules/pastafari/scripts/servers/mail/opendkim/debian_jessie/files/opendkim.conf /etc/opendkim.conf
-sudo cp modules/pastafari/scripts/servers/mail/opendkim/debian_jessie/files/opendkim /etc/default/
+sudo cp vendor/phangoapp/leviathan/scripts/servers/mail/opendkim/debian_jessie/files/opendkim.conf /etc/opendkim.conf
+sudo cp vendor/phangoapp/leviathan/scripts/servers/mail/opendkim/debian_jessie/files/opendkim /etc/default/
 
 sudo systemctl restart opendkim
 

@@ -9,10 +9,10 @@ else
     exit 1;
 fi
 
-sudo cp modules/pastafari/scripts/servers/mail/dovecot/debian_jessie/files/10-auth.conf /etc/dovecot/conf.d/
-sudo cp modules/pastafari/scripts/servers/mail/dovecot/debian_jessie/files/10-mail.conf /etc/dovecot/conf.d/
-sudo cp modules/pastafari/scripts/servers/mail/dovecot/debian_jessie/files/10-master.conf /etc/dovecot/conf.d/
-sudo cp modules/pastafari/scripts/servers/mail/dovecot/debian_jessie/files/10-ssl.conf /etc/dovecot/conf.d/
+sudo cp vendor/phangoapp/leviathan/scripts/servers/mail/dovecot/debian_jessie/files/10-auth.conf /etc/dovecot/conf.d/
+sudo cp vendor/phangoapp/leviathan/scripts/servers/mail/dovecot/debian_jessie/files/10-mail.conf /etc/dovecot/conf.d/
+sudo cp vendor/phangoapp/leviathan/scripts/servers/mail/dovecot/debian_jessie/files/10-master.conf /etc/dovecot/conf.d/
+sudo cp vendor/phangoapp/leviathan/scripts/servers/mail/dovecot/debian_jessie/files/10-ssl.conf /etc/dovecot/conf.d/
 
 sudo systemctl restart dovecot
 

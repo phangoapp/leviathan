@@ -34,7 +34,7 @@ class MonitController extends Controller {
             $c=$server->where(['WHERE ip=?', [$ip]])->select_count();
             
             if($ipcheck->error==false && $c>0)
-            {
+            {   
                 $status_disk=new StatusDisk();
             
                 $status_net=new StatusNet();

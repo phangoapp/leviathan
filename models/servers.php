@@ -234,11 +234,11 @@ class DataServer extends Webmodel {
         $this->register('ip', new CoreFields\IpField(), true);
         $this->components['ip']->indexed=true;
 
-        $this->register('server_id', new CoreFields\ForeignKeyField(new Server(), $size=11, $default_id=0, $name_field='hostname', $select_fields=['actual_idle', 'date']), true);
+        $this->register('server_id', new CoreFields\ForeignKeyField(new Server(), $size=11, $default_id=0, $name_field='hostname', $select_fields=['IdServer', 'actual_idle', 'date']), true);
 
         $this->register('net_id', new CoreFields\ForeignKeyField(new StatusNet(), $size=11, $default_id=0, $name_field='bytes_sent', $select_fields=['bytes_sent', 'bytes_recv']), true);
 
-        $this->register('memory_id', new CoreFields\ForeignKeyField(new StatusMemory(), $size=11, $default_id=0, $name_field='free', $select_fields=['free','userd','cached']), true);
+        $this->register('memory_id', new CoreFields\ForeignKeyField(new StatusMemory(), $size=11, $default_id=0, $name_field='free', $select_fields=['free','used','cached']), true);
 
         $this->register('cpu_id', new CoreFields\ForeignKeyField(new StatusCpu(), $size=11, $default_id=0, $name_field='idle', $select_fields=['num_cpu']), true);
 

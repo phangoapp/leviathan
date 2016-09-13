@@ -20,7 +20,7 @@ fi
 
 sudo chown sqlgrey:sqlgrey /var/lib/sqlgrey
 
-sudo cp modules/pastafari/scripts/servers/mail/sqlgrey/debian_jessie/files/sqlgrey.conf /etc/sqlgrey/
+sudo cp vendor/phangoapp/leviathan/scripts/servers/mail/sqlgrey/debian_jessie/files/sqlgrey.conf /etc/sqlgrey/
 
 sudo systemctl restart sqlgrey
 

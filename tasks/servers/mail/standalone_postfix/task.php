@@ -6,62 +6,63 @@ class ServerTask extends Task {
     
     public function define()
     {
-        $this->files=[['vendor/leviathan/scripts/servers/mail/postfix/${os_server}/install_postfix.sh', 0700]];
-        $this->files[]=['vendor/leviathan/scripts/servers/mail/postfix/${os_server}/files/main.cf', 0644];
-        $this->files[]=['vendor/leviathan/scripts/servers/mail/postfix/${os_server}/files/master.cf', 0644];
-        $this->files[]=['modules/mail/utilities/${os_server}/add_domain.py', 0700];
-        $this->files[]=['modules/mail/utilities/${os_server}/remove_domain.py', 0750];
-        $this->files[]=['modules/mail/utilities/${os_server}/add_user.py', 0750];
-        $this->files[]=['modules/mail/utilities/${os_server}/remove_user.py', 0750];
-        $this->files[]=['modules/mail/utilities/${os_server}/add_redirection.py', 0750];
-        $this->files[]=['modules/mail/utilities/${os_server}/remove_redirection.py', 0750];
-        $this->files[]=['modules/mail/utilities/${os_server}/add_alias.py', 0750];
-        $this->files[]=['modules/mail/utilities/${os_server}/remove_alias.py', 0750];
+        $this->files=[['vendor/phangoapp/leviathan/scripts/servers/mail/postfix/${os_server}/install_postfix.sh', 0700]];
+        $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/postfix/${os_server}/files/main.cf', 0644];
+        $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/postfix/${os_server}/files/master.cf', 0644];
+        $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/postfix/${os_server}/files/scripts/add_domain.py', 0700];
+        $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/postfix/${os_server}/files/scripts/remove_domain.py', 0750];
+        $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/postfix/${os_server}/files/scripts/add_user.py', 0750];
+        $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/postfix/${os_server}/files/scripts/remove_user.py', 0750];
+        $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/postfix/${os_server}/files/scripts/add_redirection.py', 0750];
+        $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/postfix/${os_server}/files/scripts/remove_redirection.py', 0750];
+        $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/postfix/${os_server}/files/scripts/add_alias.py', 0750];
+        $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/postfix/${os_server}/files/scripts/remove_alias.py', 0750];
+        $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/postfix/${os_server}/files/scripts/change_quota.py', 0750];
         #dd_alias.py        add_user.py      remove_domain.py add_domain.py       autoreply.py     remove_redirection.py add_redirection.py  remove_alias.py  remove_user.py
 
-        $this->files[]=['modules/mail/utilities/${os_server}/autoreply.py', 0755];
-        #$this->files[]=['vendor/leviathan/scripts/servers/mail/postfix/${os_server}/files/utilities/add_account.py', 0700];
-        #$this->files[]=['vendor/leviathan/scripts/servers/mail/postfix/${os_server}/files/utilities/remove_domain.py', 0700];
-        #$this->files[]=['vendor/leviathan/scripts/servers/mail/postfix/${os_server}/files/utilities/remove_account.py', 0700];
+        $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/postfix/${os_server}/files/scripts/autoreply.py', 0755];
+        #$this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/postfix/${os_server}/files/utilities/add_account.py', 0700];
+        #$this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/postfix/${os_server}/files/utilities/remove_domain.py', 0700];
+        #$this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/postfix/${os_server}/files/utilities/remove_account.py', 0700];
         
-        $this->files[]=['vendor/leviathan/scripts/servers/mail/dovecot/${os_server}/install_dovecot.sh', 0700];
+        $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/dovecot/${os_server}/install_dovecot.sh', 0700];
         
-        $this->files[]=['vendor/leviathan/scripts/servers/mail/dovecot/${os_server}/files/10-auth.conf', 0644];
-        $this->files[]=['vendor/leviathan/scripts/servers/mail/dovecot/${os_server}/files/10-mail.conf', 0644];
-        $this->files[]=['vendor/leviathan/scripts/servers/mail/dovecot/${os_server}/files/10-master.conf', 0644];
-        $this->files[]=['vendor/leviathan/scripts/servers/mail/dovecot/${os_server}/files/10-ssl.conf', 0644];
+        $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/dovecot/${os_server}/files/10-auth.conf', 0644];
+        $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/dovecot/${os_server}/files/10-mail.conf', 0644];
+        $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/dovecot/${os_server}/files/10-master.conf', 0644];
+        $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/dovecot/${os_server}/files/10-ssl.conf', 0644];
         
-        $this->files[]=['vendor/leviathan/scripts/servers/databases/sqlite/${os_server}/install_sqlite.sh', 0700];
+        $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/databases/sqlite/${os_server}/install_sqlite.sh', 0700];
         
-        $this->files[]=['vendor/leviathan/scripts/servers/mail/sqlgrey/${os_server}/install_sqlgrey.sh', 0700];
-        $this->files[]=['vendor/leviathan/scripts/servers/mail/sqlgrey/${os_server}/files/sqlgrey.conf', 0644];
+        $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/sqlgrey/${os_server}/install_sqlgrey.sh', 0700];
+        $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/sqlgrey/${os_server}/files/sqlgrey.conf', 0644];
         
-        $this->files[]=['vendor/leviathan/scripts/servers/mail/opendkim/${os_server}/install_opendkim.sh', 0700];
-        $this->files[]=['vendor/leviathan/scripts/servers/mail/opendkim/${os_server}/files/opendkim.conf', 0644];
-        $this->files[]=['vendor/leviathan/scripts/servers/mail/opendkim/${os_server}/files/opendkim', 0644];
+        $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/opendkim/${os_server}/install_opendkim.sh', 0700];
+        $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/opendkim/${os_server}/files/opendkim.conf', 0644];
+        $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/opendkim/${os_server}/files/opendkim', 0644];
         
-        $this->files[]=['vendor/leviathan/scripts/servers/system/quota/${os_server}/install_quota_home.py', 0700];
+        $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/system/quota/${os_server}/install_quota_home.py', 0700];
         
         # Format first array element is command with the interpreter, the task is agnostic, the files in os directory. The commands are setted with 750 permission.
         # First element is the file, next elements are the arguments
         
-        $this->commands_to_execute=[['vendor/leviathan/scripts/servers/mail/postfix/${os_server}/install_postfix.sh', '']];
+        $this->commands_to_execute=[['sudo', 'vendor/phangoapp/leviathan/scripts/servers/mail/postfix/${os_server}/install_postfix.sh', '']];
         
-        $this->commands_to_execute[]=['vendor/leviathan/scripts/servers/mail/dovecot/${os_server}/install_dovecot.sh', ''];
+        $this->commands_to_execute[]=['sudo', 'vendor/phangoapp/leviathan/scripts/servers/mail/dovecot/${os_server}/install_dovecot.sh', ''];
         
-        $this->commands_to_execute[]=['vendor/leviathan/scripts/servers/databases/sqlite/${os_server}/install_sqlite.sh', ''];
+        $this->commands_to_execute[]=['sudo', 'vendor/phangoapp/leviathan/scripts/servers/databases/sqlite/${os_server}/install_sqlite.sh', ''];
         
-        $this->commands_to_execute[]=['vendor/leviathan/scripts/servers/mail/sqlgrey/${os_server}/install_sqlgrey.sh', ''];
+        $this->commands_to_execute[]=['sudo', 'vendor/phangoapp/leviathan/scripts/servers/mail/sqlgrey/${os_server}/install_sqlgrey.sh', ''];
         
-        $this->commands_to_execute[]=['vendor/leviathan/scripts/servers/mail/opendkim/${os_server}/install_opendkim.sh', ''];
+        $this->commands_to_execute[]=['sudo', 'vendor/phangoapp/leviathan/scripts/servers/mail/opendkim/${os_server}/install_opendkim.sh', ''];
         
-        $this->commands_to_execute[]=['vendor/leviathan/scripts/servers/system/quota/${os_server}/install_quota_home.py', '', ''];
+        $this->commands_to_execute[]=['sudo', 'vendor/phangoapp/leviathan/scripts/servers/system/quota/${os_server}/install_quota_home.py', '', ''];
         
         #THe files to delete
         
         $this->delete_files=[];
         
-        $this->delete_directories=['vendor/leviathan/scripts/servers/mail', 'vendor/leviathan/scripts/servers/system'];
+        //$this->delete_directories=['vendor/phangoapp/leviathan/scripts/servers/mail', 'vendor/phangoapp/leviathan/scripts/servers/system'];
                 
         $this->name_task='Install postfix';
         

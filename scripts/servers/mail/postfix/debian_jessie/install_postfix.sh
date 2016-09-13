@@ -11,8 +11,8 @@ else
     exit;
 fi
 
-sudo cp modules/pastafari/scripts/servers/mail/postfix/debian_jessie/files/main.cf /etc/postfix/
-sudo cp modules/pastafari/scripts/servers/mail/postfix/debian_jessie/files/master.cf /etc/postfix/
+sudo cp vendor/phangoapp/leviathan/scripts/servers/mail/postfix/debian_jessie/files/main.cf /etc/postfix/
+sudo cp vendor/phangoapp/leviathan/scripts/servers/mail/postfix/debian_jessie/files/master.cf /etc/postfix/
 
 if [ $? -eq 0 ]; then
     echo "Installed sucessfully main.cf"
