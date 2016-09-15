@@ -84,6 +84,8 @@ class Task {
         $this->tmp_dir='/tmp';
         
         $this->yes_form=0;
+        
+        $this->task_done=true;
 
     }
     
@@ -540,8 +542,12 @@ class Task {
                         
                         //$this->task->update(['status' => 1]);
                         
-                        $this->logtask->log(['task_id' => $this->id, 'error' => 0, 'status'=> 1, 'progress' => 100, 'message' =>  'Task done!!','server' => $this->server]);
+                        if($this->task_done)
+                        {
+                        
+                            $this->logtask->log(['task_id' => $this->id, 'error' => 0, 'status'=> 1, 'progress' => 100, 'message' =>  'Task done!!','server' => $this->server]);
                     
+                        }   
                         return true;
 
                     }

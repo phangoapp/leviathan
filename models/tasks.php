@@ -61,7 +61,7 @@ class LogTask extends Webmodel {
     public function log(array $post)
     {
         
-        $this->fields_to_update=['task_id', 'error', 'progress', 'message', 'no_progress', 'status', 'server'];
+        $this->fields_to_update=['task_id', 'error', 'progress', 'message', 'no_progress', 'status', 'server', 'data'];
         
         return Webmodel::$m->logtask->insert($post);
         
