@@ -18,6 +18,8 @@ class ServerTask extends Task {
         $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/postfix/${os_server}/files/scripts/add_alias.py', 0750];
         $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/postfix/${os_server}/files/scripts/remove_alias.py', 0750];
         $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/postfix/${os_server}/files/scripts/change_quota.py', 0750];
+        $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/postfix/${os_server}/files/scripts/add_autoreply.py', 0750];
+        $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/postfix/${os_server}/files/scripts/get_quotas.py', 0750];
         #dd_alias.py        add_user.py      remove_domain.py add_domain.py       autoreply.py     remove_redirection.py add_redirection.py  remove_alias.py  remove_user.py
 
         $this->files[]=['vendor/phangoapp/leviathan/scripts/servers/mail/postfix/${os_server}/files/scripts/autoreply.py', 0755];
