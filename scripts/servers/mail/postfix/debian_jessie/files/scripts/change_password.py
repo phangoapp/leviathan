@@ -28,13 +28,9 @@ def check_lock(file_lock):
 
 def add_user():
 
-    parser=argparse.ArgumentParser(prog='add_user.py', description='A tool for add users to /etc/postfix/virtual_mailbox')
-
-    parser.add_argument('--domain', help='The domain of this user', required=True)
+    parser=argparse.ArgumentParser(prog='change_password.py', description='A tool for change password of a mailbox user')
 
     parser.add_argument('--user', help='User mailbox', required=True)
-
-    parser.add_argument('--quota', help='Quota of this user', required=True)
     
     parser.add_argument('--password', help='Password of the user', required=True)
     
@@ -44,11 +40,12 @@ def add_user():
     
     check_lock('virtual_domains')
 
-    domain_check=re.compile('^(([a-zA-Z]{1})|([a-zA-Z]{1}[a-zA-Z]{1})|([a-zA-Z]{1}[0-9]{1})|([0-9]{1}[a-zA-Z]{1})|([a-zA-Z0-9][a-zA-Z0-9-_]{1,61}[a-zA-Z0-9]))\.([a-zA-Z]{2,6}|[a-zA-Z0-9-]{2,30}\.[a-zA-Z]{2,3})$')
+
+    #domain_check=re.compile('^(([a-zA-Z]{1})|([a-zA-Z]{1}[a-zA-Z]{1})|([a-zA-Z]{1}[0-9]{1})|([0-9]{1}[a-zA-Z]{1})|([a-zA-Z0-9][a-zA-Z0-9-_]{1,61}[a-zA-Z0-9]))\.([a-zA-Z]{2,6}|[a-zA-Z0-9-]{2,30}\.[a-zA-Z]{2,3})$')
 
     user_check=re.compile('^[a-zA-Z0-9-_|\.]+$')
 
-    if not domain_check.match(args.domain) or not user_check.match(args.user):
+    if not user_check.match(args.user):
         json_return['error']=1
         json_return['status']=1
         json_return['progress']=100
@@ -60,13 +57,56 @@ def add_user():
 
         exit(1)
 
-    json_return['progress']=25
+    json_return['progress']=50
     json_return['message']='Is a valid domain and user'
 
     print(json.dumps(json_return))
 
     time.sleep(1)
+    
+    try:
+        user_pwd=pwd.getpwnam(args.user)
+        
+        #salt=crypt.mksalt(crypt.METHOD_SHA512)
+            
+        #password=crypt.crypt(args.password, salt).replace('$', '\$')
+        
+        if call("sudo echo \"%s:%s\" | chpasswd" % (args.user, args.password),  shell=True, stdout=DEVNULL) > 0:
+            json_return['error']=1
+            json_return['status']=1
+            json_return['progress']=100
+            json_return['message']='Error: user no exists in system'
 
+            print(json.dumps(json_return))
+            
+            unlock_file('virtual_domains')
+
+            exit(1)
+    
+        json_return['progress']=100
+        json_return['message']='Changed password succesfully'
+
+        print(json.dumps(json_return))
+        unlock_file('virtual_domains')
+        exit(0)
+
+    except KeyError:
+    
+        json_return['error']=1
+        json_return['status']=1
+        json_return['progress']=100
+        json_return['message']='Error: user not exists'
+
+        print(json.dumps(json_return))
+        
+        unlock_file('virtual_domains')
+        
+        sys.exit(1)
+    
+        
+    #echo "USERNAME:NEWPASSWORD" | chpasswd
+    
+    """
     yes_domain=0
 
     #Check if domain exists
@@ -212,7 +252,9 @@ def add_user():
         unlock_file('virtual_domains')
         
         exit(1)
-        
+    
+    """
+    
     unlock_file('virtual_domains')
         
 
