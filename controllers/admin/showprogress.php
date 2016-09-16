@@ -37,7 +37,7 @@ function ShowProgressAdmin()
         {
             default:
                 
-                echo View::load_view([$arr_task['name_task'], $arr_task['hostname'], $arr_task['description_task'], $_GET['task_id'], $_GET['server']] , 'leviathan/progress', 'phangoapp/leviathan');
+                echo View::load_view([$arr_task['name_task'], $arr_task['hostname'], $arr_task['description_task'], $arr_task['url_return'], $_GET['task_id'], $_GET['server']] , 'leviathan/progress', 'phangoapp/leviathan');
             
             break;
         

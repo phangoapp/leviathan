@@ -4,7 +4,7 @@ use PhangoApp\PhaI18n\I18n;
 use PhangoApp\PhaView\View;
 use PhangoApp\PhaLibs\AdminUtils;
 
-function ProgressView($name_task, $hostname, $description_task, $task_id, $ip, $position=0)
+function ProgressView($name_task, $hostname, $description_task, $url_return, $task_id, $ip, $position=0)
 {
 
     ?>
@@ -14,6 +14,7 @@ function ProgressView($name_task, $hostname, $description_task, $task_id, $ip, $
     <i class="fa fa-cog fa-spin fa-5x fa-fw margin-bottom" id="gear"></i>
     <div id="progressbar"><div class="progress-label"><?php echo I18n::lang('phastafari/dashboard', 'processing_task', 'Processing task...'); ?></div></div>
     <div id="no_progress" style="border: solid #cbcbcb 1px;height:150px;overflow:scroll;padding:2px;"></div>
+    <p id="show_url" style="display:none;"><a href="<?php echo $url_return; ?>"><?php echo I18n::lang('phastafari/dashboard', 'go_back', 'Go back'); ?></a></p>
     <script>
         
         position=<?php echo $position; ?>;
@@ -45,6 +46,7 @@ function ProgressView($name_task, $hostname, $description_task, $task_id, $ip, $
               },
               complete: function() {
                 progressLabel.text( text_complete );
+                $('#show_url').show();
               }
             });
         
