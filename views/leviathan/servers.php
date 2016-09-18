@@ -33,7 +33,7 @@ function ServersView($groups, $list, $op, $group_id, $yes_form, $type, $tasks_se
         });
     </script>
     </p>
-    <p><a href="<?php echo AdminUtils::set_admin_link('leviathan/servers', ['op' => 1, 'group_id' => $group_id]); ?>"><?php echo I18n::lang('phangoapp/leviathan', 'leviathan', 'Add new server' ); ?></a></p>
+    <p><a href="<?php echo AdminUtils::set_admin_link('leviathan/servers', ['op' => 1, 'group_id' => $group_id]); ?>"><?php echo I18n::lang('phangoapp/leviathan', 'add_new_server', 'Add new server' ); ?></a></p>
     <?php
     
     $arr_op['']=['link' => AdminUtils::set_admin_link('leviathan/servers', ['op' => $op, 'group_id' => $group_id, 'type' => '']), 'text' =>  I18n::lang('phangoapp/leviathan', 'all_servers', 'All servers' )];
