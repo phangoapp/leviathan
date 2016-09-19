@@ -1,5 +1,7 @@
 <?php
 
+PhangoApp\PhaI18n\I18n::load_lang('phangoapp/leviathan');
+
 ModuleAdmin::$arr_modules_admin[]=[ 'leviathan', [
 array('leviathan/servers', 'vendor/phangoapp/leviathan/controllers/admin/servers', PhangoApp\PhaI18n\I18n::lang('phangoapp/leviathan', 'servers', 'Servers') ), 
 array('leviathan/groups', 'vendor/phangoapp/leviathan/controllers/admin/groups', PhangoApp\PhaI18n\I18n::lang('phangoapp/leviathan', 'groups_servers', 'Servers groups') ), 

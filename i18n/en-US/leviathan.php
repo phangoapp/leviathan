@@ -66,5 +66,5 @@ I18n::$lang['phangoapp/leviathan']['processing_task']='Processing task...';
 
 I18n::$lang['phangoapp/leviathan']['go_back']='Go back';
 
-I18n::$lang['phangoapp/leviathan']['all_servers']='Make task in all servers';
+I18n::$lang['phangoapp/leviathan']['all_servers']='All servers';
 

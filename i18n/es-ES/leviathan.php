@@ -2,69 +2,69 @@
 
 use PhangoApp\PhaI18n\I18n;
 
-I18n::$lang['phangoapp/leviathan']['subgroups']='Subgroups';
+I18n::$lang['phangoapp/leviathan']['subgroups']='Subgrupos';
 
-I18n::$lang['phangoapp/leviathan']['choose_server']='Choose server';
+I18n::$lang['phangoapp/leviathan']['choose_server']='Elegir servidor';
 
-I18n::$lang['phangoapp/leviathan']['os_codename']='Operating system';
+I18n::$lang['phangoapp/leviathan']['os_codename']='Sístema operativo';
 
-I18n::$lang['phangoapp/leviathan']['disable_root_password']='Disable root password';
+I18n::$lang['phangoapp/leviathan']['disable_root_password']='Desactivar password de root';
 
-I18n::$lang['phangoapp/leviathan']['clean_gcc']='Clean build dependencies? By default clean compilers and others tools that normally you don\'t you need in your server';
+I18n::$lang['phangoapp/leviathan']['clean_gcc']='Limpiar dependencias de desarrollo?, por defecto se limpiaran compiladores y otras herramientas que no necesites en tu servidor';
 
-I18n::$lang['phangoapp/leviathan']['principal_group']='Principal group of server';
+I18n::$lang['phangoapp/leviathan']['principal_group']='Grupo principal';
 
-I18n::$lang['phangoapp/leviathan']['graphs']='Graphs';
+I18n::$lang['phangoapp/leviathan']['graphs']='Graficas';
 
-I18n::$lang['phangoapp/leviathan']['tasks']='Tasks';
+I18n::$lang['phangoapp/leviathan']['tasks']='Tareas';
 
-I18n::$lang['phangoapp/leviathan']['delete_server']='Delete server';
+I18n::$lang['phangoapp/leviathan']['delete_server']='Borrar servidor';
 
-I18n::$lang['phangoapp/leviathan']['servers']='Servers';
+I18n::$lang['phangoapp/leviathan']['servers']='Servidores';
 
-I18n::$lang['phangoapp/leviathan']['view_log']='View log';
+I18n::$lang['phangoapp/leviathan']['view_log']='Ver log';
 
-I18n::$lang['phangoapp/leviathan']['view_progress']='View progress';
+I18n::$lang['phangoapp/leviathan']['view_progress']='Ver progreso';
 
-I18n::$lang['phangoapp/leviathan']['update_servers']='Make task in selected servers';
+I18n::$lang['phangoapp/leviathan']['update_servers']='Actualizar servidores';
 
-I18n::$lang['phangoapp/leviathan']['update_servers_os']='Update server using the native package manager';
+I18n::$lang['phangoapp/leviathan']['update_servers_os']='Actualizar servidores usando el package manager por defecto';
 
-I18n::$lang['phangoapp/leviathan']['groups_servers']='Servers groups';
+I18n::$lang['phangoapp/leviathan']['groups_servers']='Grupos de servidores';
 
-I18n::$lang['phangoapp/leviathan']['os_servers']='Os Servers';
+I18n::$lang['phangoapp/leviathan']['os_servers']='Sistemas operativos de servidores';
 
-I18n::$lang['phangoapp/leviathan']['show_progress']='Show progress of task';
+I18n::$lang['phangoapp/leviathan']['show_progress']='Mostrar progreso de tarea';
 
-I18n::$lang['phangoapp/leviathan']['tasks_log']='Tasks log';
+I18n::$lang['phangoapp/leviathan']['tasks_log']='Log de tareas';
 
-I18n::$lang['phangoapp/leviathan']['show_multiprogress']='Progress in servers';
+I18n::$lang['phangoapp/leviathan']['show_multiprogress']='Progreso en servidores';
 
-I18n::$lang['phangoapp/leviathan']['maketask']='Make task in servers';
+I18n::$lang['phangoapp/leviathan']['maketask']='Hacer tarea en servidores';
 
 I18n::$lang['phangoapp/leviathan']['leviathan']='Leviathan';
 
-I18n::$lang['phangoapp/leviathan']['passwords_doesnt_match']='Passwords doesn\'t match';
+I18n::$lang['phangoapp/leviathan']['passwords_doesnt_match']='Contraseñas no coinciden';
 
-I18n::$lang['phangoapp/leviathan']['add_server']='Add server';
+I18n::$lang['phangoapp/leviathan']['add_server']='Añadir servidor';
 
-I18n::$lang['phangoapp/leviathan']['info']='Info';
+I18n::$lang['phangoapp/leviathan']['info']='Información';
 
-I18n::$lang['phangoapp/leviathan']['graphs_of']='Servers Graphs';
+I18n::$lang['phangoapp/leviathan']['graphs_of']='Gráficas de servidores';
 
-I18n::$lang['phangoapp/leviathan']['num_servers']='Number of servers';
+I18n::$lang['phangoapp/leviathan']['num_servers']='Número de servidores';
 
-I18n::$lang['phangoapp/leviathan']['completed_tasks']='Completed tasks';
+I18n::$lang['phangoapp/leviathan']['completed_tasks']='Tareas completadas';
 
-I18n::$lang['phangoapp/leviathan']['loading_servers']='Loading servers...';
+I18n::$lang['phangoapp/leviathan']['loading_servers']='Cargando servidores...';
 
-I18n::$lang['phangoapp/leviathan']['server_log']='Server log';
+I18n::$lang['phangoapp/leviathan']['server_log']='Log de servidor';
 
-I18n::$lang['phangoapp/leviathan']['task_progress']='Task progress';
+I18n::$lang['phangoapp/leviathan']['task_progress']='Progreso de tareas';
 
-I18n::$lang['phangoapp/leviathan']['processing_task']='Processing task...';
+I18n::$lang['phangoapp/leviathan']['processing_task']='Procesando tarea...';
 
-I18n::$lang['phangoapp/leviathan']['go_back']='Go back';
+I18n::$lang['phangoapp/leviathan']['go_back']='Regresar';
 
-I18n::$lang['phangoapp/leviathan']['all_servers']='Make task in all servers';
+I18n::$lang['phangoapp/leviathan']['all_servers']='Todos los servidores';
 
