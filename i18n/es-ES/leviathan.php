@@ -68,3 +68,19 @@ I18n::$lang['phangoapp/leviathan']['go_back']='Regresar';
 
 I18n::$lang['phangoapp/leviathan']['all_servers']='Todos los servidores';
 
+I18n::$lang['phangoapp/leviathan']['disk']='Disco';
+
+I18n::$lang['phangoapp/leviathan']['free']='libre';
+
+I18n::$lang['phangoapp/leviathan']['cpu_number']='Numero de cpus';
+
+I18n::$lang['phangoapp/leviathan']['total_cpu_idle']='Ocupación de cpu';
+
+I18n::$lang['phangoapp/leviathan']['memory_used']='Memoria usada';
+
+I18n::$lang['phangoapp/leviathan']['domains']='Dominios';
+
+I18n::$lang['phangoapp/leviathan']['used']='usada';
+
+I18n::$lang['phangoapp/leviathan']['cached']='en caché';
+
