@@ -10,7 +10,7 @@ I18n::$lang['phangoapp/leviathan']['os_codename']='Operating system';
 
 I18n::$lang['phangoapp/leviathan']['disable_root_password']='Disable root password';
 
-I18n::$lang['phangoapp/leviathan']['clean_gcc']='Clean build dependencies? By default clean compilers and others tools that normally you don't you need in your server';
+I18n::$lang['phangoapp/leviathan']['clean_gcc']='Clean build dependencies? By default clean compilers and others tools that normally you don\'t you need in your server';
 
 I18n::$lang['phangoapp/leviathan']['principal_group']='Principal group of server';
 
@@ -44,7 +44,7 @@ I18n::$lang['phangoapp/leviathan']['maketask']='Make task in servers';
 
 I18n::$lang['phangoapp/leviathan']['leviathan']='Leviathan';
 
-I18n::$lang['phangoapp/leviathan']['passwords_doesnt_match']='Passwords doesn't match';
+I18n::$lang['phangoapp/leviathan']['passwords_doesnt_match']='Passwords doesn\'t match';
 
 I18n::$lang['phangoapp/leviathan']['add_server']='Add server';
 
