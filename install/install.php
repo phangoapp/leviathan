@@ -29,38 +29,4 @@ file_put_contents('vendor/phangoapp/leviathan/settings/config.php', $config);
 
 echo "Leviathan module installed...\n";
 
-
-function exec_command($command, $error_text)
-{
-    $descriptorspec = [
-        0 => array("pipe", "r")  
-    ];
-    
-    $process = proc_open($command, $descriptorspec, $pipes);
-
-    if(is_resource($process)) 
-    {
-        
-        while($text=fread($pipes[0], 4096))
-        {
-            
-            echo $text;
-            
-        }
-        
-    }
-    else
-    {
-        
-        echo $error_text."\n";
-        exit(1);
-        
-    }
-
-    proc_close($process);
-
-    
-}
-
-
 ?>
