@@ -10,7 +10,7 @@ gc_collect_cycles();
 Webmodel::load_model('vendor/phangoapp/leviathan/models/tasks');
 Webmodel::load_model('vendor/phangoapp/leviathan/models/servers');
 
-function InstallConsole($task_id)
+function InstallConsole()
 {
 
     echo "All installed...";
