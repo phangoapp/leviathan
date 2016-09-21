@@ -1,5 +1,3 @@
-<?phhp
-
 <?php
 
 use PhangoApp\PhaModels\Webmodel;
