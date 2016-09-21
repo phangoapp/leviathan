@@ -6,9 +6,6 @@ use PhangoApp\Leviathan\ConfigTask;
 use PhangoApp\PhaUtils\Utils;
 use PhangoApp\PhaRouter\Routes;
 
-gc_enable();
-gc_collect_cycles();
-
 Webmodel::load_model('vendor/phangoapp/leviathan/models/tasks');
 Webmodel::load_model('vendor/phangoapp/leviathan/models/servers');
 
