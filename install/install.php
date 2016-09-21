@@ -47,6 +47,15 @@ $config=str_replace("define('EMAIL_NOTIFICATION_PASS', '');", "define('EMAIL_NOT
 
 file_put_contents('vendor/phangoapp/leviathan/settings/config.php', $config);
 
+echo "Install os server database...\n";
+
+$os_server=new OsServer();
+
+$os_server->create_forms();
+
+$os_server->insert(['name'=> 'Debian Jessie', 'codename'=> 'debian_jessie']);
+$os_server->insert(['name'=> 'Centos 7', 'codename'=> 'centos7']);
+
 echo "Leviathan module installed...\n";
 
 ?>
