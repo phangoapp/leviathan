@@ -16,4 +16,14 @@ ConfigTask::$url_monit='http://host/index.php/leviathan/monit';
 
 ConfigTask::$num_forks=10;
 
+define('EMAIL_NOTIFICATION_SENDER', '');
+
+define('EMAIL_NOTIFICATION_HOST', '');
+
+define('EMAIL_NOTIFICATION_USER', '');
+
+define('EMAIL_NOTIFICATION_PASS', '');
+
+define('EMAIL_NOTIFICATION', '');
+
 ?>

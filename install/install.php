@@ -25,7 +25,25 @@ $config=str_replace('ConfigTask::$ssh_key_password=[\'password\'];', 'ConfigTask
 
 $config=str_replace('ConfigTask::$url_monit=\'http://host/index.php/leviathan/monit\';', 'ConfigTask::$url_monit=\'http://'.gethostname().Routes::$root_url.'index.php/leviathan/monit\';', $config);
 
-$mail=readline('Email where send notifies: ');
+$mail=trim(readline('Email where send notifies: '));
+
+$config=str_replace("define('EMAIL_NOTIFICATION', '');", "define('EMAIL_NOTIFICATION', '${mail}');", $config);
+
+$mail=trim(readline('Email notifies sender: '));
+
+$config=str_replace("define('EMAIL_NOTIFICATION_SENDER', '');", "define('EMAIL_NOTIFICATION_SENDER', '${mail}');", $config);
+
+$mail=trim(readline('Email sender host: '));
+
+$config=str_replace("define('EMAIL_NOTIFICATION_HOST', '');", "define('EMAIL_NOTIFICATION_HOST', '${mail}');", $config);
+
+$mail=trim(readline('Email sender user: '));
+
+$config=str_replace("define('EMAIL_NOTIFICATION_USER', '');", "define('EMAIL_NOTIFICATION_USER', '${mail}');", $config);
+
+$mail=trim(readline('Email sender pass: '));
+
+$config=str_replace("define('EMAIL_NOTIFICATION_PASS', '');", "define('EMAIL_NOTIFICATION_PASS', '${mail}');", $config);
 
 file_put_contents('vendor/phangoapp/leviathan/settings/config.php', $config);
 
