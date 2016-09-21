@@ -16,6 +16,8 @@ function InstallConsole()
 
     //Create ssh keys
     
+    mkdir('ssh/', 0755, true);
+    
     $ssh_pass=Utils::generate_random_password(20);
     
     $keygen=shell_exec("ssh-keygen -t rsa -P \"".$ssh_pass."\" -f \"".ConfigTask::$ssh_key_priv[0]."\"");
