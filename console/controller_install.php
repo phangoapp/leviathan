@@ -20,7 +20,7 @@ function InstallConsole()
     
     $ssh_pass=Utils::generate_random_password(20);
     
-    $keygen=`ssh-keygen -t rsa -P "${ssh_pass}" -f "${ConfigTask::$ssh_key_priv[0]}"`:
+    $keygen=shell_exec("ssh-keygen -t rsa -P \"${ssh_pass}\" -f \"${ConfigTask::$ssh_key_priv[0]}\""):
 
     echo "Leviathan module installed...\n";
 
