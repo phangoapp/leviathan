@@ -6,10 +6,6 @@ use PhangoApp\Leviathan\ConfigTask;
 use PhangoApp\PhaUtils\Utils;
 use PhangoApp\PhaRouter\Routes;
 
-include('vendor/autoload.php');
-
-
-
 Webmodel::load_model('vendor/phangoapp/leviathan/models/tasks');
 Webmodel::load_model('vendor/phangoapp/leviathan/models/servers');
 
