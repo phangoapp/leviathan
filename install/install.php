@@ -53,7 +53,7 @@ echo "Installing crontab file...\n";
 
 $cron="*/5 * * * * ".get_current_user()." php ".PhangoApp\PhaRouter\Routes::$base_path."/console.php -m=phangoapp/leviathan -c=check";
 
-exec_command('echo "'.$cron.'" | crontab');
+exec_command('echo "'.$cron.'" | crontab', 'Cannot install crontab file for check servers status');
 
 echo "Install os server database...\n";
 
