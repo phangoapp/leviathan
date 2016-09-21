@@ -1,0 +1,19 @@
+<?php
+
+use PhangoApp\Leviathan\ConfigTask;
+
+ConfigTask::$ssh_user='pzoo';
+
+ConfigTask::$ssh_path='/home/pzoo';
+
+ConfigTask::$ssh_key_priv=['ssh/id_rsa'];
+    
+ConfigTask::$ssh_key_pub=['ssh/id_rsa.pub'];
+
+ConfigTask::$ssh_key_password=['password'];
+
+ConfigTask::$url_monit='http://host/index.php/leviathan/monit';
+
+ConfigTask::$num_forks=10;
+
+?>
