@@ -3,7 +3,7 @@
 use PhangoApp\PhaModels\Webmodel;
 use PhangoApp\Leviathan;
 use PhangoApp\Leviathan\ConfigTask;
-use PhangoApp\PhaUtils\
+use PhangoApp\PhaUtils\Utils;
 
 gc_enable();
 gc_collect_cycles();
@@ -18,7 +18,7 @@ function InstallConsole()
     
     ConfigTask::$ssh_key_priv
     
-    $ssh_pass=generate_random_password(20);
+    $ssh_pass=Utils::generate_random_password(20);
     
     $keygen=`ssh-keygen -t rsa -P "${ssh_pass}" -f "${ConfigTask::$ssh_key_priv[0]}"`:
 
