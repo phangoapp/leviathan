@@ -21,7 +21,7 @@ function InstallConsole()
     
     $ssh_pass=Utils::generate_random_password(20);
     
-    exec_command("ssh-keygen -t rsa -P \"".$ssh_pass."\" -f \"".ConfigTask::$ssh_key_priv[0]."\"", 'Error:cannot create the ssh key');
+    exec_command("ssh-keygen -t rsa -P \"".str_replace('$', '\$', $ssh_pass)."\" -f \"".ConfigTask::$ssh_key_priv[0]."\"", 'Error:cannot create the ssh key');
 
     copy('vendor/phangoapp/leviathan/settings/config.php.sample', 'vendor/phangoapp/leviathan/settings/config.php');
     
