@@ -29,7 +29,7 @@ function InstallConsole()
     
     $config=str_replace('ConfigTask::$url_monit=\'http://host/index.php/leviathan/monit\';', 'ConfigTask::$url_monit=\'http://'.gethostname().Routes::$root_url.'index.php/leviathan/monit\';', $config);
     
-    $mail=readline('Email to send notifications: ');
+    $mail=readline(" \n".'Email to send notifications: ');
     
     file_put_contents('vendor/phangoapp/leviathan/settings/config.php', $config);
 
