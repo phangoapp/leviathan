@@ -10,6 +10,8 @@ function DashBoardView()
     View::$js_module['leviathan'][]='Chart.min.js';
     View::$js_module['leviathan'][]='waterbubble.min.js';
     
+    View::$css_module['leviathan'][]='leviathan.css';
+    
     ob_start();
     //http://localhost/leviathan/index.php/admin/leviathan/servers/get/op/0/group_id/0/type/down
     ?>
@@ -24,14 +26,14 @@ function DashBoardView()
     ob_end_clean();
 
     ?>
-    <div style="width:49.5%;float:left;">
+    <div class="left_dashboard">
     <?php
 
     echo View::load_view(['Servers', $content], 'admin/content');
 
     ?>
     </div>
-    <div style="width:49.5%;float:right;">
+    <div class="right_dashboard">
         <div class="menu_title title">
             <?php echo I18n::lang('phangoapp/leviathan', 'total_cpu_use_average', 'Total cpu use average'); ?>
         </div>
@@ -39,7 +41,7 @@ function DashBoardView()
             <canvas id="cpu_average"></canvas>
         </div>
     </div>
-    <div style="width:49.5%;float:left;">
+    <div class="left_dashboard">
         <div class="menu_title title">
             <?php echo I18n::lang('phangoapp/leviathan', 'servers_load', 'Servers load'); ?>
         </div>
@@ -47,7 +49,7 @@ function DashBoardView()
             <canvas id="info_cpu"></canvas>
         </div>
     </div>
-    <div style="width:49.5%;float:right;">
+    <div class="right_dashboard">
         <div class="menu_title title">
             <?php echo I18n::lang('phangoapp/leviathan', 'total_net_use', 'Total network use'); ?>
         </div>

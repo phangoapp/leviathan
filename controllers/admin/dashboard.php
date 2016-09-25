@@ -94,7 +94,14 @@ function DashBoardAdmin()
             }
             
             
-            $arr_data['average_idle']=round($sum_idle)/$c_servers;
+            $arr_data['average_idle']=0;
+            
+            if($c_servers>0)
+            {
+            
+                $arr_data['average_idle']=round($sum_idle)/$c_servers;
+                
+            }
             
             $arr_data['cpu_info']=$arr_cpu;
             

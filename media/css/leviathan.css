@@ -1,0 +1,32 @@
+.left_dashboard {
+
+    width:49.5%;
+    float:left;
+
+}
+
+
+.right_dashboard {
+
+    width:49.5%;
+    float:right;
+
+}
+
+@media only screen and (max-width: 800px) {
+
+    .left_dashboard {
+
+        width:100%;
+
+    }
+
+
+    .right_dashboard {
+
+        width:100%;
+
+    }
+
+}
+
