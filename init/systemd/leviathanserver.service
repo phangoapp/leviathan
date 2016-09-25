@@ -1,0 +1,19 @@
+# Save it in /etc/systemd/system/leviathanserver.service
+
+[Unit]
+Description=Leviathan task server
+After=syslog.target
+After=network.target
+After=mysqld.service
+
+[Service]
+Type=simple
+User=pzoo
+Group=pzoo
+WorkingDirectory=/home/leviathan/htdocs
+ExecStart=/usr/bin/php console.php -m=phangoapp/leviathan -c runtask
+Restart=always
+Environment=USER=leviathan HOME=/home/leviathan
+
+[Install]
+WantedBy=multi-user.target
