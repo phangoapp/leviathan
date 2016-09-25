@@ -139,7 +139,7 @@ class MonitController extends Controller {
                                 
                     $status_cpu->create_forms();
                     
-                    $status_cpu->set_order(['IdStatuscpu'=> 0]);
+                    $status_cpu->set_order(['IdStatuscpu'=> 1]);
                     
                     $status_cpu->set_limit([1]);
                     

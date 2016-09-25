@@ -3,8 +3,9 @@
 PhangoApp\PhaI18n\I18n::load_lang('phangoapp/leviathan');
 
 ModuleAdmin::$arr_modules_admin[]=[ 'leviathan', [
-array('leviathan/servers', 'vendor/phangoapp/leviathan/controllers/admin/servers', PhangoApp\PhaI18n\I18n::lang('phangoapp/leviathan', 'servers', 'Servers') ), 
+array('leviathan/dashboard', 'vendor/phangoapp/leviathan/controllers/admin/dashboard', PhangoApp\PhaI18n\I18n::lang('phangoapp/leviathan', 'dashboard', 'Dashboard') ), 
 array('leviathan/groups', 'vendor/phangoapp/leviathan/controllers/admin/groups', PhangoApp\PhaI18n\I18n::lang('phangoapp/leviathan', 'groups_servers', 'Servers groups') ), 
+array('leviathan/servers', 'vendor/phangoapp/leviathan/controllers/admin/servers', PhangoApp\PhaI18n\I18n::lang('phangoapp/leviathan', 'servers', 'Servers') ), 
 array('leviathan/os', 'vendor/phangoapp/leviathan/controllers/admin/os', PhangoApp\PhaI18n\I18n::lang('phangoapp/leviathan', 'os_servers', 'Os Servers') ), 
 array('leviathan/showprogress', 'vendor/phangoapp/leviathan/controllers/admin/showprogress', PhangoApp\PhaI18n\I18n::lang('phangoapp/leviathan', 'show_progress', 'Show progress of task'), '' ), 
 array('leviathan/graphs', 'vendor/phangoapp/leviathan/controllers/admin/graphs', PhangoApp\PhaI18n\I18n::lang('phangoapp/leviathan', 'graphs', 'Graphs'), '' ), 

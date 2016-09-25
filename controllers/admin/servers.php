@@ -88,7 +88,7 @@ function ServersAdmin()
                     case 'heavy':
                         
                         $list->where_sql[0].=' AND actual_idle>?';
-                        $list->where_sql[1][]=80;
+                        $list->where_sql[1][]=70;
                     
                     break;
                     
