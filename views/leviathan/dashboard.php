@@ -170,6 +170,12 @@ function DashBoardView()
                     $('#num_hosts_down').html(data.num_servers_down);
                     
                 }
+                else
+                {
+                    
+                    $('#hosts_down').hide();
+                    
+                }
                 
                 $('#number_servers').html(data['num_servers']);
                 $('#number_cpu').html(data['num_cpu']);
@@ -206,6 +212,12 @@ function DashBoardView()
                     
                     
                 }
+                else
+                {
+                    
+                    $('#hosts_heavy_loaded').hide();
+                    
+                }
                 
                 window.cpu_pie = new Chart(ctx_cpu,{ type: 'pie', data: data_cpu, options: options_cpu });
                 
@@ -220,7 +232,7 @@ function DashBoardView()
         
         get_info();
         
-        setInterval(get_info, 20000);
+        setInterval(get_info, 60000);
         
     </script>
     <?php
