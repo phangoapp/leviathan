@@ -21,7 +21,7 @@ function checkConsole()
 
     $server=new Server();
 
-    $now=DateTime::now();
+    $now=DateTime::now(false);
             
     $timestamp_now=DateTime::obtain_timestamp($now);
 
