@@ -121,11 +121,11 @@ function RunTaskConsole($host='127.0.0.1', $port=1337, $debug=0)
             
             
         }
-        
+        /*
         $memory = memory_get_usage() / 1024;
         $formatted = number_format($memory, 3).'K';
         echo "Current memory usage: {$formatted}\n";
-            
+        */  
     });
         
     
