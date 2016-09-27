@@ -182,7 +182,7 @@ class MonitController extends Controller {
                         
                     }
                      
-                    $status_disk->set_conditions(['where ip=? and disk=?', [$ip, $disk]]);
+                    $status_disk->set_conditions(['where ip=?', [$ip]]);
                     
                     $arr_disk_id=$status_disk->select_to_array(['id'], true);
                         
