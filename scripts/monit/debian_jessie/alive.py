@@ -56,6 +56,7 @@ if check_url.match(args.url):
     
     with open('vendor/phangoapp/leviathan/scripts/monit/debian_jessie/files/crontab/alive', 'w') as f:
         alive_cron=alive_cron.replace('/home/spanel/vendor/phangoapp/leviathan/scripts/monit/debian_jessie/files/get_info.py', '/usr/local/bin/get_info.py')
+        alive_cron=alive_cron.replace(' pzoo ', ' '+args.user+' ')
         f.write(alive_cron)
     
     # Edit get_info.py
