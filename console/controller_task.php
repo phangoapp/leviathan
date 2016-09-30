@@ -34,22 +34,23 @@ function TaskConsole($task_id)
     
     //Delete data and password
     
-    if($arr_task['password']!='')
+    $taskmodel->fields_to_update=['data', 'password'];
+    
+    $taskmodel->reset_require();
+    
+    $taskmodel->set_conditions(['where IdTask=?', [$task_id]]);
+    
+    $taskmodel->update(['password' => '', 'data' => '']);
+    
+    $taskmodel->reload_require();
+    
+    /*if($arr_task['password']!='')
     {
         
         //Delete password from task
         
-        $taskmodel->fields_to_update=['password'];
-        
-        $taskmodel->reset_require();
-        
-        $taskmodel->set_conditions(['where IdTask=?', [$task_id]]);
-        
-        //$taskmodel->update(['password' => '']);
-        
-        $taskmodel->reload_require();
-    }
-    
+        $taskmodel->fields_to_update[]='password';
+    }*/
     
     if($arr_task['path']=='')
     {
