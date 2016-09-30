@@ -48,7 +48,7 @@ function ServersAdmin()
                 
                 $list->num_by_page=100;
                 
-                $list->field_search='hostname';
+                $list->order_field='hostname';
                 
                 $list->order=0;
                 
