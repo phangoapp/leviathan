@@ -50,7 +50,7 @@ function ServersAdmin()
                 
                 $list->field_search='hostname';
                 
-                $list->order=1;
+                $list->order=0;
                 
                 $list->yes_search=1;
                 
