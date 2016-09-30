@@ -243,6 +243,93 @@ class MonitController extends Controller {
         }
                 
     }
+    
+    public function update()
+    {
+        settype($_GET['api_key'], 'string');
+        
+        Webmodel::load_model('vendor/phangoapp/leviathan/models/servers');
+        Webmodel::load_model('vendor/phangoapp/leviathan/models/tasks');
+        
+        if(ConfigTask::$api_key===$_GET['api_key'])
+        {
+            
+            settype($_GET['ip'], 'string');
+            
+            $ipcheck=new PhangoApp\PhaModels\CoreFields\IpField('', '');
+            
+            $ip=$ipcheck->check($_GET['ip']);
+            
+            if($ipcheck->error==false)
+            {
+                
+                settype($_POST['num_updates'], 'integer');
+                
+                $num_updates=$_POST['num_updates'];
+                
+                $server=new Server();
+                
+                $server->fields_to_update=['num_updates'];
+
+                //server.set_conditions('where ip=%s', [ip])
+
+                $server->reset_require();
+
+                $server->where(['where ip=?', [$ip]])->update(['num_updates'=> $num_updates]);
+                
+                echo "Ok\n";
+                
+                die;
+                
+                
+            }
+            
+            echo "Ouch\n";
+            
+            die;
+            
+        }
+        
+        /*getpost=GetPostFiles()
+    
+    if config_task.api_key==api_key:
+        
+        ipcheck=IpField('', '')
+        
+        ip=ipcheck.check(ip)
+        
+        if ipcheck.error!=True:
+            
+            getpost.obtain_post(['num_updates'], True)
+            
+            try:
+                
+                num_updates=int(getpost.post.get('num_updates', '0'))
+                
+            except:
+                
+                num_updates=0
+                
+            #if num_updates>0:
+                
+            conn=WebModel.connection()
+        
+            server=servers.Server(conn)
+            
+            server.valid_fields=['num_updates'];
+
+            server.set_conditions('where ip=%s', [ip])
+
+            server.reset_require()
+
+            server.update({'num_updates': num_updates})
+            
+            return 'Ok'
+            
+    
+    return "Ouch"*/
+        
+    }
             
 }
 

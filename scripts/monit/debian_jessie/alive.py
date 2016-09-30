@@ -77,7 +77,7 @@ if check_url.match(args.url):
         get_updates=f.read()
 
     with open('/etc/cron.daily/get_updates.py', 'w') as f:
-        url_updates=args.url.replace('/getinfo/', '/getupdates/')
+        url_updates=args.url.replace('/monit/', '/monit/update/')
         get_updates=get_updates.replace("http://url/to/server/token/ip", url_updates)
         f.write(get_updates)
     
