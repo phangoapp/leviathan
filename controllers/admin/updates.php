@@ -20,7 +20,7 @@ function UpdatesAdmin()
     settype($_POST['group_id'], 'integer');
     settype($_POST['all_servers'], 'integer');
     
-    $post=['name_task' => I18n::lang('phangoapp/leviathan', 'update_servers', 'Update servers'), 'description_task' => I18n::lang('phangoapp/leviathan', 'update_servers_os', 'Update server using the native package manager'), 'codename_task' => 'update_server', 'path' => 'vendor/phangoapp/leviathan/tasks/system/updates'];
+    $post=['name_task' => I18n::lang('phangoapp/leviathan', 'update_servers', 'Update servers'), 'description_task' => I18n::lang('phangoapp/leviathan', 'update_servers_os', 'Update server using the native package manager'), 'codename_task' => 'update_server', 'url_return' => AdminUtils::set_admin_link('leviathan/servers'), 'path' => 'vendor/phangoapp/leviathan/tasks/system/updates'];
     
     $post['where_sql_server']='where 1=1';
     
@@ -50,6 +50,8 @@ function UpdatesAdmin()
         $post['where_sql_server'].=' AND IdServer IN (select server_id from servergroupitem where group_id='.$_POST['group_id'].')';
         
     }
+    
+    $post['where_sql_server'].=' AND num_updates>0';
     
     $t=new Task();
     

@@ -40,7 +40,7 @@ function TaskConsole($task_id)
     
     $taskmodel->set_conditions(['where IdTask=?', [$task_id]]);
     
-    $taskmodel->update(['password' => '', 'data' => '']);
+    //$taskmodel->update(['password' => '', 'data' => '']);
     
     $taskmodel->reload_require();
     

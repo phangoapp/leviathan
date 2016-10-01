@@ -5,6 +5,32 @@ use PhangoApp\PhaModels\CoreFields;
 use PhangoApp\PhaTime\DateTime;
 use PhangoApp\PhaModels\Webmodel;
 
+//Dangerous, in next versions is better safe the query in a json variable and check this in set_conditions
+
+class SqlField extends CoreFields\CharField {
+    
+    public function check($value)
+    {
+        
+        if($this->model_instance)
+        {
+        
+            return $value;
+            
+        }
+        else
+        {
+            
+            $this->error=true;
+            $this->txt_error='You need a model related for this field';
+            
+            return '';
+            
+        }
+        
+    }
+    
+}
 
 class Task extends Webmodel {
     
@@ -18,7 +44,7 @@ class Task extends Webmodel {
         $this->register('data', new CoreFields\ArrayField(new CoreFields\CharField('data')));
         $this->register('server', new CoreFields\IpField());
         $this->register('hostname', new CoreFields\CharField());
-        $this->register('where_sql_server', new CoreFields\CharField());
+        $this->register('where_sql_server', new SqlField());
         $this->register('user', new CoreFields\CharField());
         $this->register('password', new CoreFields\CharField());
         $this->register('user_path', new CoreFields\CharField());
@@ -51,7 +77,7 @@ class LogTask extends Webmodel {
         $this->register('server', new CoreFields\IpField());
         $this->register('progress', new CoreFields\DoubleField());
         $this->register('no_progress', new CoreFields\BooleanField());
-        $this->register('message', new CoreFields\TextField(), True);
+        $this->register('message', new CoreFields\TextField(), true);
         $this->register('error', new CoreFields\BooleanField());
         $this->register('status', new CoreFields\BooleanField());
         $this->register('data', new CoreFields\ArrayField(new CoreFields\CharField('data')));

@@ -158,7 +158,7 @@ function ServersAdmin()
         if($post)
         {
             //, 'data' => $post
-            if($t->insert(['name_task' => 'Add server', 'description_task' => 'Task for add a server to leviathan network', 'codename_task' => 'add_server', 'hostname' => $post['hostname'], 'path' => 'tasks/system/add_server', 'server' => $post['ip'], 'user' => 'root', 'password' => $_POST['password'], 'user_path' => '/root', 'os_codename' => $post['os_codename'], 'data' => ['ip' => $post['ip'], 'disable_root_password' => $post['disable_root_password'], 'clean_gcc' => $post['clean_gcc']]]))
+            if($t->insert(['name_task' => 'Add server', 'description_task' => 'Task for add a server to leviathan network', 'codename_task' => 'add_server', 'hostname' => $post['hostname'], 'path' => 'tasks/system/add_server', 'server' => $post['ip'], 'user' => 'root', 'password' => $_POST['password'], 'user_path' => '/root', 'os_codename' => $post['os_codename'], 'url_return' => AdminUtils::set_admin_link('leviathan/servers'), 'data' => ['ip' => $post['ip'], 'disable_root_password' => $post['disable_root_password'], 'clean_gcc' => $post['clean_gcc']]]))
             {
                 $id=$t->insert_id();
                 

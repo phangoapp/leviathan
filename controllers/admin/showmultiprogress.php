@@ -41,7 +41,44 @@ function ShowMultiProgressAdmin()
                 echo View::load_view([$arr_task['name_task'], $arr_task['description_task'], $_GET['task_id'], $num_servers] , 'leviathan/multiprogress', 'phangoapp/leviathan');
             
             break;
-        
+            
+            case 1:
+            
+                //Get last progress
+                
+                PhangoApp\PhaLibs\AdminUtils::$show_admin_view=false;
+                
+                /*$arr_task=$logtask->where(['WHERE task_id=?', [$arr_task['IdTask']]])->set_order(['IdLogtask' => 0])->set_limit([$_GET['position'], 10])->select_to_list(['status', 'error', 'server']);
+                
+                $arr_ip=[0];
+                
+                foreach($arr_task as $task)
+                {
+                    
+                    $arr_ip[]=$task['server'];
+                    
+                }
+                
+                $arr_servers=$s->where(['WHERE ip IN ?', [$arr_ip]])->select_to_list(['hostname']);
+                
+                print_r($arr_servers);*/
+                
+                $arr_log=[];
+                
+                $query=$logtask->execute('select logtask.status, logtask.error, logtask.server, server.hostname from logtask, server WHERE logtask.task_id=? and server.ip=logtask.server order by logtask.IdLogtask ASC limit ?, 10', [$arr_task['IdTask'], $_GET['position']]);
+                
+                while($log=$logtask->fetch_array($query))
+                {
+                    
+                    $arr_log[]=$log;
+                    
+                }
+                
+                echo json_encode($arr_log);
+            
+            break;
+            
+            /*
             case 1:
                 
                 //Get servers
@@ -100,9 +137,10 @@ function ShowMultiProgressAdmin()
                 
                 PhangoApp\PhaLibs\AdminUtils::$show_admin_view=false;
                 
+                settype($_GET['position'], 'string');
                 settype($_POST['servers'], 'string');
                 
-                $servers=json_decode($_POST['servers']);
+                $servers=json_decode($_POST['servers'], true);
                 
                 if(!$servers)
                 {
@@ -113,9 +151,9 @@ function ShowMultiProgressAdmin()
                 
                 #for ip in servers:
                 
-                if(count($servers)>0)
+                if(count($servers)>0 && (gettype($servers)=='array'))
                 {
-                
+                    
                     $logtask->set_order(['id' => 1]);
                     
                     $logtask->set_conditions(['WHERE task_id=? and status=? and error=? and server=?', [$arr_task['IdTask'], 1, 1, '']]);
@@ -164,7 +202,7 @@ function ShowMultiProgressAdmin()
                 echo json_encode($arr_log);
                 
                 
-            break;
+            break;*/
         
         }
             

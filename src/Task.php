@@ -358,6 +358,8 @@ class Task {
     
         }
         
+        $this->logtask->log(['task_id' => $this->id, 'error' => 0, 'status' => 0, 'progress' => 0, 'message' =>  'Init task...', 'no_progress' => 0, 'server' => $this->server]);
+        
         try {
     
             $ssh=$this->prepare_connection($m);

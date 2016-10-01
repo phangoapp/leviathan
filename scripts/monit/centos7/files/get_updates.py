@@ -4,6 +4,7 @@ import subprocess
 import re
 import urllib.request
 import urllib.parse
+import ssl
 
 pattern=re.compile('^Inst (.*?)$')
 
@@ -25,4 +26,19 @@ data = urllib.parse.urlencode({'num_updates': int(num_updates)})
 
 data = data.encode('ascii')
 
-content=urllib.request.urlopen(url, data)
+#content=urllib.request.urlopen(url, data)
+
+if url[:5]=='https':
+    
+    # For nexts versions 3.5
+    
+    ctx = ssl.create_default_context()
+    ctx.check_hostname = False
+    ctx.verify_mode = ssl.CERT_NONE
+    
+    content=urllib.request.urlopen(url, data, context=ctx)
+    
+else:
+
+    content=urllib.request.urlopen(url, data)
+
