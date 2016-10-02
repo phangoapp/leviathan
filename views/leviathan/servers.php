@@ -92,7 +92,7 @@ function ServersView($groups, $list, $op, $group_id, $yes_form, $type, $tasks_se
             </script>
             <?php
         
-            $close_form='<p><input type="button" id="all_servers_task" value="'.I18n::lang('phangoapp/leviathan', 'all_servers', 'Make task in all servers').'" /> <input type="submit" value="'.I18n::lang('phangoapp/leviathan', 'update_servers', 'Make task in selected servers').'" /></p></form>';
+            $close_form='<p><input type="button" id="all_servers_task" value="'.I18n::lang('phangoapp/leviathan', 'all_servers', 'Make task in all servers').'" /> <input type="submit" value="'.I18n::lang('phangoapp/leviathan', 'make_task_servers', 'Make task in selected servers').'" /></p></form>';
         
         break;
         

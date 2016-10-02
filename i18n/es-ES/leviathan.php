@@ -26,7 +26,7 @@ I18n::$lang['phangoapp/leviathan']['view_log']='Ver log';
 
 I18n::$lang['phangoapp/leviathan']['view_progress']='Ver progreso';
 
-I18n::$lang['phangoapp/leviathan']['update_servers']='Actualizar servidores';
+I18n::$lang['phangoapp/leviathan']['update_servers']='Actualizar servidores seleccionados';
 
 I18n::$lang['phangoapp/leviathan']['update_servers_os']='Actualizar servidores usando el package manager por defecto';
 
