@@ -7,6 +7,7 @@ import argparse
 import re
 import os
 import shutil
+import pwd
 from subprocess import call
 
 parser = argparse.ArgumentParser(description='A script for install alive script and cron')
@@ -28,6 +29,20 @@ check_url = re.compile(
         r'(?:/?|[/?]\S+)$', re.IGNORECASE)
 
 if check_url.match(args.url):
+    
+    # Check if user exists, if exists, delete.
+    
+    try:
+        u=pwd.getpwnam(args.user)
+        
+        if call("sudo userdel -r %s" % args.user, shell=True) > 0:
+            print('Error, user with same username exists and cannot delete of the server')
+            exit(1)
+        else:
+            print('Cleaning user with the same name')
+        
+    except:
+        pass
     
     # Create users
     

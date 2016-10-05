@@ -29,6 +29,18 @@ check_url = re.compile(
 
 if check_url.match(args.url):
     
+    try:
+        u=pwd.getpwnam(args.user)
+        
+        if call("sudo userdel -r %s" % args.user, shell=True) > 0:
+            print('Error, user with same username exists and cannot delete of the server')
+            exit(1)
+        else:
+            print('Cleaning user with the same name')
+        
+    except:
+        pass
+    
     # Create users
     
     if call("sudo useradd -m -s /bin/sh %s" % args.user, shell=True) > 0:
