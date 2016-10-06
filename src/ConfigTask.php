@@ -35,6 +35,8 @@ class ConfigTask {
     
     static public $num_forks=20;
     
+    static public $tasks_path=['tasks'];
+    
 
 }
 

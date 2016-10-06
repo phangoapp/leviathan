@@ -76,7 +76,7 @@ function MakeTaskAdmin()
                 
                 $taskmodel->define();
                 
-                $post=['name_task' => $taskmodel->name_task, 'description_task' => $taskmodel->description_task, 'codename_task' => $taskmodel->codename_task, 'path' => $task_path];
+                $post=['name_task' => $taskmodel->name_task, 'description_task' => $taskmodel->description_task, 'codename_task' => $taskmodel->codename_task, 'path' => $task_path, 'url_return' => AdminUtils::set_admin_link('leviathan/servers')];
                 
                 $post['where_sql_server']='where 1=1';
                 
@@ -251,6 +251,12 @@ function MakeTaskAdmin()
                 
                     
                 }
+                
+            }
+            else
+            {
+                
+                echo 'No task in '.$task_path.'/task.php';
                 
             }
         

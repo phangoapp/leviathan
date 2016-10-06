@@ -120,6 +120,20 @@ function ServersAdmin()
                         
                         $tasks_select=search_tasks('vendor/phangoapp/leviathan/tasks');
                         
+                        foreach(ConfigTask::$tasks_path as $task_path)
+                        {
+                        
+                            if(is_dir($task_path))
+                            {
+                            
+                                $tasks_select_personalized=search_tasks('tasks');
+                                
+                                $tasks_select=array_merge($tasks_select, $tasks_select_personalized);
+                            
+                            }
+                        
+                        }
+                        
                         /*echo '<pre>';
                         
                         print_r($tasks_select);
@@ -320,6 +334,7 @@ function server_options($url_options, $model_name, $id, $arr_row)
 
 function search_tasks($dir)
 {
+    $arr_dir=[];
     
     $search_dir=scandir($dir);
                         
