@@ -143,8 +143,10 @@ function ServersAdmin()
                     break;
                 
                 }
+                
+                //($name, $value, $model, $identifier_field, $field_parent, $where=['WHERE 1=1', []], $null_yes=1)
 
-                $groups=new PhangoApp\PhaModels\Forms\SelectModelForm('group_id',   $_GET['group_id'],   $g,   'name',   'IdServergroup') ;
+                $groups=new PhangoApp\PhaModels\Forms\SelectModelFormByOrder('group_id',   $_GET['group_id'],   $g,   'name',   'parent_id') ;
 
                 echo View::load_view([$groups, 'list' => $list,  $_GET['op'], $_GET['group_id'], $yes_form, $_GET['type'], $tasks_select], 'leviathan/servers', 'phangoapp/leviathan');
             
