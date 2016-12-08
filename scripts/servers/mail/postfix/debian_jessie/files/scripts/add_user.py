@@ -200,6 +200,8 @@ def add_user():
             json_return['status']=1
             json_return['message']='New mailbox account added sucessfully'
 
+            unlock_file('virtual_domains')
+
             print(json.dumps(json_return))
     else:
         json_return['error']=1
