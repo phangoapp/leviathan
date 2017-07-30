@@ -20,8 +20,8 @@ function GroupsAdmin()
     $g->create_forms();
     
     $g->forms['parent_id']->default_value=$_GET['parent_id'];
-    
-    $l=new ParentLinks(AdminUtils::set_admin_link('leviathan/groups', ['parent_id' => $_GET['parent_id']]), 'servergroup',   'parent_id',   'name',   $_GET['parent_id'],   false,   $arr_parameters = array(),   $arr_pretty_parameters = array());
+    //($url, $model, $parentfield_name, $field_name, $idmodel, $last_link=0, $arr_parameters=[], $arr_pretty_parameters=[])
+    $l=new ParentLinks(AdminUtils::set_admin_link('leviathan/groups', ['parent_id' => $_GET['parent_id']]), new ServerGroup(),   'parent_id',   'name',   $_GET['parent_id'],   false,   $arr_parameters = array(),   $arr_pretty_parameters = array());
     
     echo '<p>'.$l->show().'</p>';
     

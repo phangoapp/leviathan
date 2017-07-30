@@ -95,7 +95,7 @@ function ProgressView($name_task, $hostname, $description_task, $url_return, $ta
          
          $.ajax({
             url: "<?php echo AdminUtils::set_admin_link('leviathan/showprogress', ['op' => 1, 'task_id' => $task_id, 'server' => $ip]); ?>/position/"+position,
-            method: "POST",
+            method: "GET",
             dataType: "json",
             data: {}
             }).done(function(data) {

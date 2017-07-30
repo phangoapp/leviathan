@@ -1,11 +1,21 @@
 <?php
 
+use PhangoApp\PhaRouter\Routes;
 use PhangoApp\PhaRouter\Controller;
 use PhangoApp\Leviathan\ConfigTask;
 use PhangoApp\PhaModels\Webmodel;
 use PhangoApp\PhaTime\DateTime;
 
 class MonitController extends Controller {
+
+    public function __construct($route, $name, $yes_view=1) 
+    {
+    
+        parent::__construct($route, $name, $yes_view);
+    
+        Routes::$check_csrf=false;
+    
+    }
 
 	public function home()
 	{
@@ -117,7 +127,7 @@ class MonitController extends Controller {
                                 
                         $status_mem->create_forms();
                         
-                        $status_mem->set_order(['IdStatusmem' => 1]);
+                        $status_mem->set_order(['IdStatusmemory' => 1]);
                         
                         $status_mem->set_limit([1]);
                         
@@ -240,6 +250,13 @@ class MonitController extends Controller {
                 echo 'Ok';
 
             }
+            else
+            {
+                
+                echo 'Server not found';
+                
+            }
+            
         }
                 
     }
