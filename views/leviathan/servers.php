@@ -4,6 +4,7 @@ use PhangoApp\PhaLibs\AdminUtils;
 use PhangoApp\PhaUtils\MenuSelected;
 use PhangoApp\PhaI18n\I18n;
 use PhangoApp\PhaView\View;
+use PhangoApp\PhaUtils\Utils;
 
 function ServersView($groups, $list, $op, $group_id, $yes_form, $type, $tasks_select)
 {
@@ -38,7 +39,7 @@ function ServersView($groups, $list, $op, $group_id, $yes_form, $type, $tasks_se
     
     $arr_op['']=['link' => AdminUtils::set_admin_link('leviathan/servers', ['op' => $op, 'group_id' => $group_id, 'type' => '']), 'text' =>  I18n::lang('phangoapp/leviathan', 'all_servers', 'All servers' )];
     
-    $arr_op['down']=['link' => AdminUtils::set_admin_link('leviathan/servers', ['op' => $op, 'group_id' => $group_id, 'type' => 'down']), 'text' =>  I18n::lang('phangoapp/leviathan', 'servers_down', 'Servers down' )];
+    $arr_op['down']=['link' => AdminUtils::set_admin_link('leviathan/servers', ['op' => $op, 'group_id' => $group_id, 'type' => 'down']), 'text' =>  I18n::lang('phangoapp/leviathan', 'servers_view_down', 'Servers down' )];
     
     $arr_op['heavy']=['link' => AdminUtils::set_admin_link('leviathan/servers', ['op' => $op, 'group_id' => $group_id, 'type' => 'heavy']), 'text' =>  I18n::lang('phangoapp/leviathan', 'heavy_loaded', 'Servers heavily loaded' )];
     
@@ -48,7 +49,7 @@ function ServersView($groups, $list, $op, $group_id, $yes_form, $type, $tasks_se
     
     $arr_op['task_servers']=['link' => AdminUtils::set_admin_link('leviathan/servers', ['op' => $op, 'group_id' => $group_id, 'type' => 'task_servers']), 'text' =>  I18n::lang('phangoapp/leviathan', 'task_servers', 'Make task in servers' )];
     
-    MenuSelected::menu_selected($type, $arr_op, 1);
+    echo MenuSelected::menu_selected($type, $arr_op, 1);
 
     $close_form='';
 
@@ -61,6 +62,7 @@ function ServersView($groups, $list, $op, $group_id, $yes_form, $type, $tasks_se
             <form method="post" id="updates_form" action="<?php echo AdminUtils::set_admin_link('leviathan/updates'); ?>">
             <input type="hidden" name="group_id" value="<?php echo $group_id; ?>" />
             <input type="hidden" id="all_servers_choose" name="all_servers" value="0" />
+            <input type="hidden" name="csrf_token" value="<?php echo Utils::generate_csrf_key($length_token=80); ?>" />
             <?php
         
             $close_form='<p><input type="button" id="all_servers_update" value="'.I18n::lang('phangoapp/leviathan', 'all_servers', 'Update all servers').'" /> <input type="submit" value="'.I18n::lang('phangoapp/leviathan', 'update_servers', 'Update selected servers').'" /></p></form>';
@@ -73,6 +75,7 @@ function ServersView($groups, $list, $op, $group_id, $yes_form, $type, $tasks_se
             <form method="post" id="tasks_form" action="<?php echo AdminUtils::set_admin_link('leviathan/maketask'); ?>">
             <input type="hidden" name="group_id" value="<?php echo $group_id; ?>" />
             <input type="hidden" id="all_servers_choose" name="all_servers" value="0" />
+            <input type="hidden" name="csrf_token" value="<?php echo Utils::generate_csrf_key($length_token=80); ?>" />
             <?php
             
             //Here generate select task form
