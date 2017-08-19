@@ -203,6 +203,9 @@ def add_user():
             unlock_file('virtual_domains')
 
             print(json.dumps(json_return))
+
+            exit(1)
+
     else:
         json_return['error']=1
         json_return['status']=1
