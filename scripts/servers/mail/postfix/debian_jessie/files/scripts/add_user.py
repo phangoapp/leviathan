@@ -204,7 +204,7 @@ def add_user():
 
             print(json.dumps(json_return))
 
-            exit(1)
+            exit(0)
 
     else:
         json_return['error']=1
